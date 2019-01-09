@@ -1,4 +1,4 @@
-package com.evlj.findmovie.network
+package com.evlj.findmovie.network.api
 
 import com.evlj.findmovie.model.Discover
 import io.reactivex.Single
