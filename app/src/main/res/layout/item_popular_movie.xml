@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="movie"
+            type="com.evlj.findmovie.model.Movie" />
+
+        <variable
+            name="posterPath"
+            type="String" />
+
+        <variable
+            name="presenter"
+            type="com.evlj.findmovie.list.MainPresenter" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/poster"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> presenter.onClickMovie(movie.getId())}"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{posterPath}"
+            tools:src="@drawable/poster" />
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="150dp"
+            android:text="@string/movie_label"
+            android:textAllCaps="true"
+            android:textColor="@color/white_lilac"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/movie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="20dp"
+            android:ellipsize="end"
+            android:lines="2"
+            android:text="@{movie.getTitle()}"
+            android:textAllCaps="true"
+            android:textColor="@color/white_lilac"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            tools:text="Mission Impossible" />
+
+    </RelativeLayout>
+
+</layout>
