@@ -8,8 +8,4 @@
     <string name="movie_genre">Adventure, Drama, Sci-Fi</string>
     <string name="movie_runtime">169 min</string>
     <string name="movie_rated">PG-13</string>
-
-    <string name="loading">loading…</string>
-
-    <string name="movie_label">Film</string>
 </resources>

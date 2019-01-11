@@ -13,8 +13,4 @@ abstract class BaseActivity : AppCompatActivity(), BaseContract {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showLoading() {}
-
-    override fun dismissLoading() {}
-
 }

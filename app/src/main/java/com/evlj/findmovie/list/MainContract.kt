@@ -11,4 +11,8 @@ interface MainContract : BaseContract {
 
     fun navigateToMovieDetail(movieId: Int)
 
+    fun showProgressBar()
+
+    fun hideProgressBar()
+
 }

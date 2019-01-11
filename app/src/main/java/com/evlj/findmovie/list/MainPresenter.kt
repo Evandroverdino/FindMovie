@@ -23,13 +23,13 @@ class MainPresenter : BasePresenter<MainContract>(MainContract::class.java) {
         )
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe { view?.showLoading() }
+            .doOnSubscribe { view?.showProgressBar() }
             .subscribe({
-                view?.dismissLoading()
+                view?.hideProgressBar()
                 view?.populateAdapter(it.results)
                 totalPageResults = it.totalPages
             }, {
-                view?.dismissLoading()
+                view?.hideProgressBar()
                 view?.showMessage(it.message)
             })
         pageResult = page

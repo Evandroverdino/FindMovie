@@ -8,8 +8,4 @@ interface BaseContract {
 
     fun showMessage(message: String?)
 
-    fun showLoading()
-
-    fun dismissLoading()
-
 }

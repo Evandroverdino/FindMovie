@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
 import br.com.ilhasoft.support.recyclerview.adapters.AutoRecyclerAdapter
 import br.com.ilhasoft.support.recyclerview.adapters.OnCreateViewHolder
 import com.evlj.findmovie.R
@@ -85,6 +86,15 @@ class MainActivity : BaseActivity(), MainContract {
 
     override fun navigateToMovieDetail(movieId: Int) {
 
+    }
+
+    override fun showProgressBar() = setupVisibity(true)
+
+    override fun hideProgressBar() = setupVisibity(false)
+
+    fun setupVisibity(isLoadingMovies: Boolean) {
+        binding.loadingMovies.visibility = if (isLoadingMovies) View.VISIBLE else View.GONE
+        binding.movies.visibility = if (isLoadingMovies) View.GONE else View.VISIBLE
     }
 
 }
