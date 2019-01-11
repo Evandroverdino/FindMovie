@@ -5,7 +5,7 @@ import com.evlj.findmovie.model.Movie
 
 interface MainContract : BaseContract {
 
-    fun fillPopularMovies(results: List<Movie>)
+    fun populateAdapter(results: List<Movie>)
 
     fun loadMorePopularMovies(pageResult: Int)
 

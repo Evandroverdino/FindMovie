@@ -26,7 +26,7 @@ class MainPresenter : BasePresenter<MainContract>(MainContract::class.java) {
             .doOnSubscribe { view?.showLoading() }
             .subscribe({
                 view?.dismissLoading()
-                view?.fillPopularMovies(it.results)
+                view?.populateAdapter(it.results)
                 totalPageResults = it.totalPages
             }, {
                 view?.dismissLoading()

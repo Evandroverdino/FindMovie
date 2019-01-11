@@ -55,13 +55,12 @@ class MainActivity : BaseActivity(), MainContract {
         setupRecyclerView(binding.movies)
     }
 
-    private fun setupAdapter() {
+    private fun setupAdapter() =
         presenter.loadPopularMovies(
             Constants.API_KEY, Constants.API_LANGUAGE,
             Constants.API_SORT_BY, false, false,
             Constants.API_PAGE_RESULT
         )
-    }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) = with(recyclerView) {
         layoutManager = setupLayoutManager()
@@ -73,17 +72,16 @@ class MainActivity : BaseActivity(), MainContract {
     private fun setupLayoutManager(): RecyclerView.LayoutManager =
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-    override fun fillPopularMovies(results: List<Movie>) {
+    override fun populateAdapter(results: List<Movie>) {
         moviesAdapter.addAll(results)
         moviesAdapter.notifyDataSetChanged()
     }
 
-    override fun loadMorePopularMovies(pageResult: Int) {
+    override fun loadMorePopularMovies(pageResult: Int) =
         presenter.loadPopularMovies(
             Constants.API_KEY, Constants.API_LANGUAGE,
             Constants.API_SORT_BY, false, false, pageResult
         )
-    }
 
     override fun navigateToMovieDetail(movieId: Int) {
 
