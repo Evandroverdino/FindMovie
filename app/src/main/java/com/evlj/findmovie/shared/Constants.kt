@@ -10,7 +10,7 @@ object Constants {
     val API_LANGUAGE = "en-US"
     val API_SORT_BY = "popularity.desc"
 
-    val API_POSTER_SIZE_W500 = "w500"
+    val API_POSTER_SIZE = "w185"
     val API_POSTER_SIZE_ORIGINAL = "original"
 
     val API_PAGE_RESULT = 1

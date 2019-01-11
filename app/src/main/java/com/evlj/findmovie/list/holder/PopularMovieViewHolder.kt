@@ -19,7 +19,7 @@ class PopularMovieViewHolder(
     override fun onBind(movie: Movie) {
         binding.movie = movie
         binding.posterPath = Constants.API_POSTER_URL +
-                Constants.API_POSTER_SIZE_W500 + movie.posterPath
+                Constants.API_POSTER_SIZE + movie.posterPath
         binding.presenter = presenter
         binding.executePendingBindings()
     }
