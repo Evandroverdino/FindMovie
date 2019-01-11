@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+                name="movieDetail"
+                type="com.evlj.findmovie.model.MovieDetail"/>
+
+        <variable
+                name="posterPath"
+                type="String"/>
+
+        <!--<variable
+            name="toolbarListener"
+            type="com.evlj.searchmovie.shared.ToolbarListener" />-->
+
+    </data>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                app:imageUrl="@{posterPath}"
+                tools:src="@drawable/poster_item"/>
+
+        <TextView
+                android:id="@+id/movie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@{movieDetail.title}"
+                android:textAllCaps="true"
+                android:textColor="@color/white_lilac"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                tools:text="Mission Impossible"/>
+
+        <TextView
+                android:id="@+id/release_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/movie_name"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:drawablePadding="8dp"
+                android:text="@{movieDetail.releaseDate}"
+                android:textColor="@color/white_lilac"
+                android:textSize="18sp"
+                tools:text="2018-07-25"/>
+
+        <TextView
+                android:id="@+id/vote_average"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/release_date"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:drawablePadding="8dp"
+                android:text="@{movieDetail.getVoteAverage()}"
+                android:textColor="@color/white_lilac"
+                android:textSize="18sp"
+                tools:text="2018-07-25"/>
+
+        <TextView
+                android:id="@+id/runtime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/vote_average"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:drawablePadding="8dp"
+                android:text="@{movieDetail.getRuntime()}"
+                android:textColor="@color/white_lilac"
+                android:textSize="18sp"
+                tools:text="147 min"/>
+
+        <TextView
+                android:id="@+id/genres"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/runtime"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="4dp"
+                android:drawablePadding="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{movieDetail.getGenres()}"
+                android:textColor="@color/white_lilac"
+                android:textSize="18sp"
+                tools:text="Adventure, Action, Thriller"/>
+
+        <!--<include
+            android:id="@+id/toolbar"
+            layout="@layout/view_toolbar"
+            app:toolbarListener="@{toolbarListener}" />-->
+
+    </RelativeLayout>
+
+</layout>
