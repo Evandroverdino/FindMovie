@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
+import android.view.MenuItem
 import android.view.View
 import com.evlj.findmovie.R
 import com.evlj.findmovie.base.BaseActivity
@@ -43,12 +45,25 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
         setupView()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+        android.R.id.home -> {
+            NavUtils.navigateUpFromSameTask(this)
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
     private fun setupView() {
+        setupToolbar()
         binding.presenter = presenter
-        presenter.loadMovieDetails(
-            intent.extras.getInt(MOVIE_ID),
-            Constants.API_KEY, Constants.API_LANGUAGE
-        )
+        intent.extras?.getInt(MOVIE_ID)?.let {
+            presenter.loadMovieDetails(it, Constants.API_KEY, Constants.API_LANGUAGE)
+        }
+    }
+
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbar)
+        binding.toolbar.setNavigationIcon(R.drawable.round_arrow_back_white_24)
     }
 
     override fun showMovieDetails(movieDetail: MovieDetail) {
