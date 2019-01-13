@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.view.View
 import com.evlj.findmovie.R
 import com.evlj.findmovie.base.BaseActivity
@@ -57,7 +58,12 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
                 movieDetail.posterPath
     }
 
-    override fun checkOrUncheckMovie() {}
+    override fun updateFavoriteView(isFavorite: Boolean) {
+        binding.favorite.setImageDrawable(
+            if (isFavorite) ContextCompat.getDrawable(this, R.drawable.round_star_black_48)
+            else ContextCompat.getDrawable(this, R.drawable.round_star_border_black_48)
+        )
+    }
 
     override fun showProgressBar() = setupVisibility(true)
 

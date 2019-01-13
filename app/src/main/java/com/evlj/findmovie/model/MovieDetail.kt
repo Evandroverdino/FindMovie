@@ -1,20 +1,25 @@
 package com.evlj.findmovie.model
 
 import com.google.gson.annotations.SerializedName
+import io.realm.RealmList
+import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 
-class MovieDetail(
-    @SerializedName("id") val id: Int,
-    @SerializedName("budget") val budget: Float,
-    @SerializedName("genres") val genres: List<Genre>,
-    @SerializedName("homepage") val homepage: String,
-    @SerializedName("original_title") val originalTitle: String,
-    @SerializedName("overview") val overview: String,
-    @SerializedName("poster_path") val posterPath: String,
-    @SerializedName("release_date") val releaseDate: String,
-    @SerializedName("runtime") val runtime: Int,
-    @SerializedName("title") val title: String,
-    @SerializedName("vote_average") val voteAverage: Float
-) {
+open class MovieDetail(
+    @PrimaryKey
+    @SerializedName("id") var id: Int = 0,
+    @SerializedName("budget") var budget: Float = 0.0F,
+    @SerializedName("genres") var genres: RealmList<Genre> = RealmList(),
+    @SerializedName("homepage") var homepage: String = "",
+    @SerializedName("original_title") var originalTitle: String = "",
+    @SerializedName("overview") var overview: String = "",
+    @SerializedName("poster_path") var posterPath: String = "",
+    @SerializedName("release_date") var releaseDate: String = "",
+    @SerializedName("runtime") var runtime: Int = 0,
+    @SerializedName("title") var title: String = "",
+    @SerializedName("vote_average") var voteAverage: Float = 0.0F,
+    var isFavorite: Boolean = false
+) : RealmObject() {
 
     fun getGenres(): String {
         val genresList = StringBuilder()
