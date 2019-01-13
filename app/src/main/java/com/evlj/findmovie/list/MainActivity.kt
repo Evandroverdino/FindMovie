@@ -11,6 +11,7 @@ import com.evlj.findmovie.R
 import com.evlj.findmovie.base.BaseActivity
 import com.evlj.findmovie.databinding.ActivityMainBinding
 import com.evlj.findmovie.databinding.ItemPopularMovieBinding
+import com.evlj.findmovie.detail.MovieDetailActivity
 import com.evlj.findmovie.list.holder.PopularMovieViewHolder
 import com.evlj.findmovie.model.Movie
 import com.evlj.findmovie.shared.Constants
@@ -25,8 +26,7 @@ class MainActivity : BaseActivity(), MainContract {
 
     private val binding: ActivityMainBinding by lazy {
         DataBindingUtil.setContentView<ActivityMainBinding>(
-            this,
-            R.layout.activity_main
+            this, R.layout.activity_main
         )
     }
 
@@ -84,17 +84,18 @@ class MainActivity : BaseActivity(), MainContract {
             Constants.API_SORT_BY, false, false, pageResult
         )
 
-    override fun navigateToMovieDetail(movieId: Int) {
+    override fun navigateToMovieDetail(movieId: Int) =
+        startActivity(MovieDetailActivity.createIntent(this, movieId))
 
-    }
+    override fun showProgressBar() = setupVisibility(true)
 
-    override fun showProgressBar() = setupVisibity(true)
+    override fun hideProgressBar() = setupVisibility(false)
 
-    override fun hideProgressBar() = setupVisibity(false)
-
-    fun setupVisibity(isLoadingMovies: Boolean) {
-        binding.loadingMovies.visibility = if (isLoadingMovies) View.VISIBLE else View.GONE
-        binding.movies.visibility = if (isLoadingMovies) View.GONE else View.VISIBLE
+    private fun setupVisibility(isLoadingMovies: Boolean) {
+        binding.apply {
+            loadingMovies.visibility = if (isLoadingMovies) View.VISIBLE else View.GONE
+            movies.visibility = if (isLoadingMovies) View.GONE else View.VISIBLE
+        }
     }
 
 }
