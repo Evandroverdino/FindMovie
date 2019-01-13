@@ -1,13 +1,14 @@
 package com.evlj.findmovie.detail
 
 import com.evlj.findmovie.base.BasePresenter
+import com.evlj.findmovie.model.MovieDetail
 import com.evlj.findmovie.network.service.MovieService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 class MovieDetailPresenter : BasePresenter<MovieDetailContract>(MovieDetailContract::class.java) {
 
-    val movieService: MovieService by lazy { MovieService() }
+    private val movieService: MovieService by lazy { MovieService() }
 
     fun loadMovieDetails(movieId: Int, apiKey: String, language: String) {
         movieService.getMovieDetails(movieId, apiKey, language)
@@ -22,4 +23,9 @@ class MovieDetailPresenter : BasePresenter<MovieDetailContract>(MovieDetailContr
                 view?.showMessage(it.message)
             })
     }
+
+    fun saveOrDeleteFavoriteMovie(movieDetail: MovieDetail) {
+        view?.checkOrUncheckMovie()
+    }
+
 }

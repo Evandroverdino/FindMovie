@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.View
 import com.evlj.findmovie.R
 import com.evlj.findmovie.base.BaseActivity
 import com.evlj.findmovie.databinding.ActivityMovieDetailBinding
@@ -42,6 +43,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
     }
 
     private fun setupView() {
+        binding.presenter = presenter
         presenter.loadMovieDetails(
             intent.extras.getInt(MOVIE_ID),
             Constants.API_KEY, Constants.API_LANGUAGE
@@ -51,16 +53,21 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
     override fun showMovieDetails(movieDetail: MovieDetail) {
         binding.movieDetail = movieDetail
         binding.posterPath = Constants.API_POSTER_URL +
-                Constants.API_POSTER_SIZE_ORIGINAL +
+                Constants.API_POSTER_SIZE_W342 +
                 movieDetail.posterPath
     }
 
-    override fun showProgressBar() {
+    override fun checkOrUncheckMovie() {}
 
-    }
+    override fun showProgressBar() = setupVisibility(true)
 
-    override fun hideProgressBar() {
+    override fun hideProgressBar() = setupVisibility(false)
 
+    private fun setupVisibility(isLoadingMovie: Boolean) {
+        binding.apply {
+            loadingMovie.visibility = if (isLoadingMovie) View.VISIBLE else View.GONE
+            movieInfo.visibility = if (isLoadingMovie) View.GONE else View.VISIBLE
+        }
     }
 
 }

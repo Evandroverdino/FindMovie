@@ -7,8 +7,11 @@ interface MovieDetailContract : BaseContract {
 
     fun showMovieDetails(movieDetail: MovieDetail)
 
+    fun checkOrUncheckMovie()
+
     fun showProgressBar()
 
     fun hideProgressBar()
+
 
 }
