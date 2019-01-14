@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-            <android.support.constraint.ConstraintLayout
+            <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -58,7 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:imageUrl="@{posterPath}"
-                        tools:src="@drawable/poster_item"/>
+                        tools:src="@drawable/poster_example"/>
 
                 <TextView
                         android:id="@+id/movie_name"
@@ -66,13 +66,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toEndOf="@+id/poster"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:text="@{movieDetail.title}"
                         android:textColor="@android:color/black"
                         android:textSize="20sp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintLeft_toRightOf="@+id/poster"
                         tools:text="Mission Impossible"/>
 
                 <TextView
@@ -81,11 +81,11 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/movie_name"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="@{movieDetail.releaseDate}"
+                        android:layout_toEndOf="@+id/poster"
+                        android:text="@{@string/movie_release(movieDetail.releaseDate)}"
                         android:textSize="12sp"
-                        app:layout_constraintLeft_toRightOf="@+id/poster"
-                        app:layout_constraintTop_toBottomOf="@+id/movie_name"
                         tools:text="2018-07-25"/>
 
                 <TextView
@@ -94,8 +94,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/release_date"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_marginTop="4dp"
-                        android:text="@{movieDetail.getVoteAverage()}"
+                        android:layout_toEndOf="@+id/poster"
+                        android:text="@{@string/movie_rating(movieDetail.getVoteAverage())}"
                         android:textSize="12sp"
                         app:layout_constraintTop_toBottomOf="@+id/release_date"
                         app:layout_constraintLeft_toRightOf="@+id/poster"
@@ -108,7 +110,9 @@
                         android:layout_below="@+id/vote_average"
                         android:layout_marginTop="4dp"
                         android:layout_marginStart="16dp"
-                        android:text="@{movieDetail.getRuntime()}"
+                        android:layout_marginEnd="16dp"
+                        android:layout_toEndOf="@+id/poster"
+                        android:text="@{@string/movie_runtime(movieDetail.getRuntime())}"
                         android:textSize="12sp"
                         app:layout_constraintTop_toBottomOf="@+id/vote_average"
                         app:layout_constraintLeft_toRightOf="@+id/poster"
@@ -120,16 +124,18 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/runtime"
                         android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
                         android:layout_marginTop="4dp"
+                        android:layout_toEndOf="@+id/poster"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="@{movieDetail.getGenres()}"
+                        android:text="@{@string/movie_genre(movieDetail.getGenres())}"
                         android:textSize="12sp"
                         app:layout_constraintTop_toBottomOf="@+id/runtime"
                         app:layout_constraintLeft_toRightOf="@+id/poster"
                         tools:text="Adventure, Action, Thriller"/>
 
-            </android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
 
             <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"

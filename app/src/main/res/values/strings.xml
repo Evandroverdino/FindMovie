@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">FindMovie</string>
 
-    <string name="movie_rating">8.6</string>
+    <string name="movie_rating">Rating: %s</string>
+    <string name="movie_release">Released: %s</string>
     <string name="movie_name">Interstellar</string>
     <string name="movie_year">2014</string>
     <string name="movie_plot">A team of explorers travel through a wormhole in space in an attempt to ensure humanity\'s
         survival.
     </string>
-    <string name="movie_genre">Adventure, Drama, Sci-Fi</string>
-    <string name="movie_runtime">169 min</string>
+    <string name="movie_genre">Genres: %s </string>
+    <string name="movie_runtime">Runtime: %s</string>
     <string name="movie_rated">PG-13</string>
     <string name="overview_label">Overview</string>
 </resources>
