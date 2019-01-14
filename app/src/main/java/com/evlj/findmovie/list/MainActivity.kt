@@ -92,10 +92,7 @@ class MainActivity : BaseActivity(), MainContract {
     override fun hideProgressBar() = setupVisibility(false)
 
     private fun setupVisibility(isLoadingMovies: Boolean) {
-        binding.apply {
-            loadingMovies.visibility = if (isLoadingMovies) View.VISIBLE else View.GONE
-            movies.visibility = if (isLoadingMovies) View.GONE else View.VISIBLE
-        }
+        binding.loadingMovies.visibility = if (isLoadingMovies) View.VISIBLE else View.GONE
     }
 
 }

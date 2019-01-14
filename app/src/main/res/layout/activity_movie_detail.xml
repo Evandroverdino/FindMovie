@@ -44,9 +44,10 @@
 
         <LinearLayout
                 android:id="@+id/movie_info"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/white"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <RelativeLayout
