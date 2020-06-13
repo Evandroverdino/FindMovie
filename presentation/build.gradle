@@ -1,0 +1,60 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'realm-android'
+apply plugin: 'org.ajoberstar.grgit'
+
+apply from: "../buildsystem/configuration.gradle"
+apply from: "../buildsystem/dependencies.gradle"
+
+android {
+    compileSdkVersion sdk.compileSdkVersion
+    buildToolsVersion sdk.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.evlj.findmovie"
+        minSdkVersion sdk.minSdkVersion
+        targetSdkVersion sdk.targetSdkVersion
+        versionCode grgit.tag.list().size() ?: 0
+        versionName grgit.describe() ?: "0.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility sdk.sourceCompatibilityVersion
+        targetCompatibility sdk.targetCompatibilityVersion
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin
+
+    implementation deps.appCompat
+    implementation deps.supportDesign
+    implementation deps.supportCompat
+    implementation deps.supportRecyclerView
+    implementation deps.supportCardView
+    implementation deps.constraintLayout
+
+    implementation deps.retrofit
+    implementation deps.retrofitAdapter
+    implementation deps.retrofitGsonConv
+    implementation deps.okhttp3LoggingInterceptor
+    implementation deps.picasso
+
+    implementation deps.rxJava2
+    implementation deps.rxAndroid
+}

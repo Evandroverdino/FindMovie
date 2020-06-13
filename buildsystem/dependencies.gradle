@@ -1,0 +1,55 @@
+/*
+ *
+ * This file specifies all project dependencies.
+ *
+ */
+
+// ANDROID:
+def ANDROID_SUPPORT_VERSION = '28.0.0'
+def CONSTRAINT_LAYOUT_VERSION = '1.1.3'
+
+// TOOLS PLUGINS
+def GRADLE_VERSION = '3.2.1'
+def GRADLE_GIT_VERSION = '1.7.2'
+def KOTLIN_VERSION = '1.3.11'
+def REALM_VERSION = '5.8.0'
+def PICASSO_VERSION = '2.71828'
+
+// REACTIVE PROGRAMMING:
+def RX_JAVA2_VERSION = '2.2.13'
+def RX_ANDROID_VERSION = '2.1.1'
+def RX_KOTLIN_VERSION = '2.4.0'
+
+// RETROFIT:
+def RETROFIT_VERSION = '2.5.0'
+def OKHTTP3_LOGGING_INTERCEPTOR_VERSION = '3.12.0'
+
+ext.deps = [
+
+        // Android Support:
+        appCompat                : "com.android.support:appcompat-v7:$ANDROID_SUPPORT_VERSION",
+        supportCompat            : "com.android.support:support-compat:$ANDROID_SUPPORT_VERSION",
+        supportRecyclerView      : "com.android.support:recyclerview-v7:$ANDROID_SUPPORT_VERSION",
+        supportDesign            : "com.android.support:design:$ANDROID_SUPPORT_VERSION",
+        supportCardView          : "com.android.support:cardview-v7:$ANDROID_SUPPORT_VERSION",
+        constraintLayout         : "com.android.support.constraint:constraint-layout:$CONSTRAINT_LAYOUT_VERSION",
+
+        // Tools & SDKs
+        gradlePlugin             : "com.android.tools.build:gradle:$GRADLE_VERSION",
+        gradleGitPlugin          : "org.ajoberstar:gradle-git:$GRADLE_GIT_VERSION",
+        kotlin                   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION",
+        kotlinPlugin             : "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION",
+        realmPlugin              : "io.realm:realm-gradle-plugin:$REALM_VERSION",
+        picasso                  : "com.squareup.picasso:picasso:$PICASSO_VERSION",
+
+        // Reactive programming:
+        rxJava2                  : "io.reactivex.rxjava2:rxjava:$RX_JAVA2_VERSION",
+        rxAndroid                : "io.reactivex.rxjava2:rxandroid:$RX_ANDROID_VERSION",
+        rxKotlin                 : "io.reactivex.rxjava2:rxkotlin:$RX_KOTLIN_VERSION",
+
+        // RETROFIT:
+        retrofit                 : "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION",
+        retrofitAdapter          : "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION",
+        retrofitGsonConv         : "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION",
+        okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_LOGGING_INTERCEPTOR_VERSION"
+]
