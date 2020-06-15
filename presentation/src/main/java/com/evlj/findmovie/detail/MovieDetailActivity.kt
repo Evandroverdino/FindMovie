@@ -7,15 +7,16 @@ import android.support.v4.app.NavUtils
 import android.support.v4.content.ContextCompat
 import android.view.MenuItem
 import com.evlj.findmovie.R
-import com.evlj.findmovie.base.BaseActivity
-import com.evlj.findmovie.model.MovieDetail
+import com.evlj.findmovie.base.activity.BaseActivity
+import com.evlj.findmovie.model.PMovieDetail
 import com.evlj.findmovie.shared.Constants
 import com.evlj.findmovie.shared.extensions.loadImage
 import com.evlj.findmovie.shared.extensions.makeGoneIf
 import com.evlj.findmovie.shared.extensions.makeVisibleIf
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import org.koin.android.ext.android.inject
 
-class MovieDetailActivity : BaseActivity(), MovieDetailContract {
+class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     companion object {
         @JvmStatic
@@ -29,16 +30,18 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
         }
     }
 
-    private val presenter: MovieDetailPresenter by lazy {
-        val presenter = MovieDetailPresenter()
-        presenter.attachView(this)
-        presenter
-    }
+    private val presenter by inject<MovieDetailPresenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
+        presenter.attachView(this)
         setupView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
@@ -63,7 +66,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
         }
     }
 
-    override fun showMovieDetails(movieDetail: MovieDetail) {
+    override fun showMovieDetails(movieDetail: PMovieDetail) {
         with(movieDetail) {
             poster.loadImage(Constants.API_POSTER_URL + Constants.API_POSTER_SIZE_W342 + posterPath)
             movieName.text = title
@@ -101,5 +104,4 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract {
         progressLoadingMovie.makeVisibleIf(isLoadingMovie)
         movieInfo.makeGoneIf(isLoadingMovie)
     }
-
 }

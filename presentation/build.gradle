@@ -40,7 +40,12 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':data')
+    implementation project(':domain')
+
     implementation deps.kotlin
+
+    implementation deps.koin
 
     implementation deps.appCompat
     implementation deps.supportDesign
@@ -49,12 +54,9 @@ dependencies {
     implementation deps.supportCardView
     implementation deps.constraintLayout
 
-    implementation deps.retrofit
-    implementation deps.retrofitAdapter
-    implementation deps.retrofitGsonConv
-    implementation deps.okhttp3LoggingInterceptor
     implementation deps.picasso
 
     implementation deps.rxJava2
+    implementation deps.rxKotlin
     implementation deps.rxAndroid
 }

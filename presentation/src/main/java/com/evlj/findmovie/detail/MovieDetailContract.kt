@@ -1,16 +1,26 @@
 package com.evlj.findmovie.detail
 
-import com.evlj.findmovie.base.BaseContract
-import com.evlj.findmovie.model.MovieDetail
+import com.evlj.findmovie.base.activity.IBaseActivity
+import com.evlj.findmovie.base.presenter.IBasePresenter
+import com.evlj.findmovie.model.PMovieDetail
 
-interface MovieDetailContract : BaseContract {
+interface MovieDetailContract {
 
-    fun showMovieDetails(movieDetail: MovieDetail)
+    interface View : IBaseActivity {
+        fun showMovieDetails(movieDetail: PMovieDetail)
 
-    fun updateFavoriteView(isFavorite: Boolean)
+        fun updateFavoriteView(isFavorite: Boolean)
 
-    fun showProgressBar()
+        fun showProgressBar()
 
-    fun hideProgressBar()
+        fun hideProgressBar()
+    }
 
+    interface Presenter : IBasePresenter<View> {
+        fun loadMovieDetails(
+            movieId: Int,
+            apiKey: String,
+            language: String
+        )
+    }
 }

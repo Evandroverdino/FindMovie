@@ -33,4 +33,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation deps.kotlin
+
+    implementation deps.koin
+
+    implementation deps.rxJava2
+    implementation deps.rxKotlin
 }

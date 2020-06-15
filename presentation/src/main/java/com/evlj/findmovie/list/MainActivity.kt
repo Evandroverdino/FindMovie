@@ -7,31 +7,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.evlj.findmovie.R
-import com.evlj.findmovie.base.BaseActivity
+import com.evlj.findmovie.base.activity.BaseActivity
 import com.evlj.findmovie.base.adapter.AnyRvAdapter
 import com.evlj.findmovie.base.adapter.AnyRvItemController
 import com.evlj.findmovie.detail.MovieDetailActivity
-import com.evlj.findmovie.model.Movie
+import com.evlj.findmovie.model.PMovie
 import com.evlj.findmovie.shared.Constants
 import com.evlj.findmovie.shared.extensions.loadImage
 import com.evlj.findmovie.shared.extensions.makeVisibleIf
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_popular_movie.view.*
+import org.koin.android.ext.android.inject
 
-class MainActivity : BaseActivity(), MainContract {
+class MainActivity : BaseActivity(), MainContract.View {
 
-    private val presenter: MainPresenter by lazy {
-        val presenter = MainPresenter()
-        presenter.attachView(this)
-        presenter
-    }
+    private val presenter by inject<MainPresenter>()
 
     private val moviesAdapter: AnyRvAdapter by lazy {
         AnyRvAdapter(
-            mapOf(Movie::class to PopularMovieItemController),
+            mapOf(PMovie::class to PopularMovieItemController),
             emptyList()
         ) { _, item ->
-            presenter.onClickMovie((item as Movie).id)
+            presenter.onClickMovie((item as PMovie).id)
             true
         }
     }
@@ -39,7 +36,13 @@ class MainActivity : BaseActivity(), MainContract {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        presenter.attachView(this)
         setupView()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.detachView()
     }
 
     private fun setupView() {
@@ -67,7 +70,7 @@ class MainActivity : BaseActivity(), MainContract {
     private fun setupLayoutManager(): RecyclerView.LayoutManager =
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-    override fun populateAdapter(results: List<Movie>) {
+    override fun populateAdapter(results: List<PMovie>) {
         moviesAdapter.add(results)
         moviesAdapter.notifyDataSetChanged()
     }
@@ -94,7 +97,7 @@ class MainActivity : BaseActivity(), MainContract {
     }
 }
 
-object PopularMovieItemController : AnyRvItemController<Movie>() {
+object PopularMovieItemController : AnyRvItemController<PMovie>() {
 
     override fun createView(parent: ViewGroup): View =
         LayoutInflater
@@ -103,8 +106,8 @@ object PopularMovieItemController : AnyRvItemController<Movie>() {
 
     override fun bind(
         rootView: View,
-        item: Movie,
-        onTouchEvent: (AnyRvAdapter.TouchEvent, Movie) -> Boolean
+        item: PMovie,
+        onTouchEvent: (AnyRvAdapter.TouchEvent, PMovie) -> Boolean
     ) {
         with(rootView) {
             with(item) {

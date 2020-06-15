@@ -1,22 +1,52 @@
 package com.evlj.findmovie
 
 import android.app.Application
+import com.evlj.findmovie.data.di.*
+import com.evlj.findmovie.di.presentationAppModule
+import com.evlj.findmovie.di.presentationMapperModule
+import com.evlj.findmovie.di.presentationPresenterModule
+import com.evlj.findmovie.domain.di.domainUseCaseModule
 import io.realm.Realm
 import io.realm.RealmConfiguration
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class MovieApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Realm.init(this)
+        buildKoinInstance()
         buildDatabase()
     }
 
-    private fun buildDatabase() = Realm.setDefaultConfiguration(
-        RealmConfiguration.Builder()
-            .name("favoriteMoviesDB.realm")
-            .deleteRealmIfMigrationNeeded()
-            .build()
-    )
+    private fun buildKoinInstance() {
+        startKoin {
+            androidLogger()
+            androidContext(this@MovieApplication)
+            modules(
+                listOf(
+                    presentationAppModule,
+                    presentationMapperModule,
+                    presentationPresenterModule,
+                    domainUseCaseModule,
+                    dataAppModule,
+                    dataMapperModule,
+                    dataNetworkModule,
+                    dataRepositoryModule,
+                    dataSourceModule
+                )
+            )
+        }
+    }
 
+    private fun buildDatabase() {
+        Realm.init(this)
+        Realm.setDefaultConfiguration(
+            RealmConfiguration.Builder()
+                .name("favoriteMoviesDB.realm")
+                .deleteRealmIfMigrationNeeded()
+                .build()
+        )
+    }
 }
