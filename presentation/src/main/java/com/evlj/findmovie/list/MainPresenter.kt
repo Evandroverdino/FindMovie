@@ -1,13 +1,13 @@
 package com.evlj.findmovie.list
 
 import com.evlj.findmovie.base.presenter.BasePresenter
-import com.evlj.findmovie.domain.interactors.DataUseCases
+import com.evlj.findmovie.domain.interactors.MovieUseCases
 import com.evlj.findmovie.list.listener.RecyclerScrollListener
 import com.evlj.findmovie.mappers.PDiscoverMapper
 import io.reactivex.rxkotlin.subscribeBy
 
 class MainPresenter(
-    private val dataUseCases: DataUseCases,
+    private val movieUseCases: MovieUseCases,
     private val discoverMapper: PDiscoverMapper
 ) : BasePresenter<MainContract.View>(), MainContract.Presenter {
 
@@ -19,7 +19,7 @@ class MainPresenter(
         sortBy: String, includeAdult: Boolean,
         includeVideo: Boolean, page: Int
     ) {
-        dataUseCases
+        movieUseCases
             .getPopularMovies(
                 apiKey = apiKey,
                 language = language,

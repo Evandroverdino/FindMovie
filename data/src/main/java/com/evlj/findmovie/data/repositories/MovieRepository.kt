@@ -2,20 +2,17 @@ package com.evlj.findmovie.data.repositories
 
 import com.evlj.findmovie.data.mappers.DiscoverMapper
 import com.evlj.findmovie.data.mappers.MovieDetailsMapper
-import com.evlj.findmovie.data.sources.local.IDataLocalSource
 import com.evlj.findmovie.data.sources.remote.IDataRemoteSource
 import com.evlj.findmovie.domain.entities.Discover
 import com.evlj.findmovie.domain.entities.MovieDetail
-import com.evlj.findmovie.domain.repositories.IDataRepository
-import io.reactivex.Completable
+import com.evlj.findmovie.domain.repositories.IMovieRepository
 import io.reactivex.Single
 
-class DataRepository(
+class MovieRepository(
     private val dataRemoteSource: IDataRemoteSource,
-    private val dataLocalSource: IDataLocalSource,
     private val discoverMapper: DiscoverMapper,
     private val movieDetailMapper: MovieDetailsMapper
-) : IDataRepository {
+) : IMovieRepository {
 
     override fun getPopularMovies(
         apiKey: String,
@@ -48,13 +45,4 @@ class DataRepository(
                 language = language
             )
             .map(movieDetailMapper::transform)
-
-    override fun searchMovieInDatabase(movieId: Int): Single<MovieDetail> =
-        dataLocalSource
-            .searchMovieInDatabase(movieId)
-            .map(movieDetailMapper::transform)
-
-    override fun setMovieAsFavoriteOrNot(movieDetail: MovieDetail): Completable =
-        dataLocalSource
-            .setMovieAsFavoriteOrNot(movieDetail.let(movieDetailMapper::parseBack))
 }

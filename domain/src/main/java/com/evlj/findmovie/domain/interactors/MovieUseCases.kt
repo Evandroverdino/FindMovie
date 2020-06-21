@@ -4,13 +4,12 @@ import com.evlj.findmovie.domain.entities.Discover
 import com.evlj.findmovie.domain.entities.MovieDetail
 import com.evlj.findmovie.domain.executors.IExecutor
 import com.evlj.findmovie.domain.interactors.base.BaseUseCase
-import com.evlj.findmovie.domain.repositories.IDataRepository
-import io.reactivex.Completable
+import com.evlj.findmovie.domain.repositories.IMovieRepository
 import io.reactivex.Single
 
-class DataUseCases(
+class MovieUseCases(
     executor: IExecutor,
-    private val dataRepository: IDataRepository
+    private val dataRepository: IMovieRepository
 ) : BaseUseCase(executor) {
 
     fun getPopularMovies(
@@ -43,12 +42,4 @@ class DataUseCases(
                     language = language
                 )
             }
-
-    fun searchMovieInDatabase(movieId: Int): Single<MovieDetail> =
-        dataRepository
-            .singleOnExecutor { searchMovieInDatabase(movieId) }
-
-    fun setMovieAsFavoriteOrNot(movieDetail: MovieDetail): Completable =
-        dataRepository
-            .completableOnExecutor { setMovieAsFavoriteOrNot(movieDetail) }
 }

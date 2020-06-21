@@ -1,19 +1,21 @@
 package com.evlj.findmovie.detail
 
 import com.evlj.findmovie.base.presenter.BasePresenter
-import com.evlj.findmovie.domain.interactors.DataUseCases
+import com.evlj.findmovie.domain.interactors.DatabaseUseCases
+import com.evlj.findmovie.domain.interactors.MovieUseCases
 import com.evlj.findmovie.mappers.PMovieDetailMapper
 import com.evlj.findmovie.model.PMovieDetail
 import io.reactivex.rxkotlin.subscribeBy
 import io.reactivex.schedulers.Schedulers
 
 class MovieDetailPresenter(
-    private val dataUseCases: DataUseCases,
+    private val movieUseCases: MovieUseCases,
+    private val databaseUseCases: DatabaseUseCases,
     private val movieDetailMapper: PMovieDetailMapper
 ) : BasePresenter<MovieDetailContract.View>(), MovieDetailContract.Presenter {
 
     override fun loadMovieDetails(movieId: Int, apiKey: String, language: String) {
-        dataUseCases
+        databaseUseCases
             .searchMovieInDatabase(movieId)
             .map(movieDetailMapper::transform)
             .observeOnUi()
@@ -32,7 +34,7 @@ class MovieDetailPresenter(
     }
 
     private fun loadFromAPI(movieId: Int, apiKey: String, language: String) =
-        dataUseCases
+        movieUseCases
             .getMovieDetails(movieId, apiKey, language)
             .map(movieDetailMapper::transform)
             .observeOnUi()
@@ -49,7 +51,7 @@ class MovieDetailPresenter(
             ).disposeOnDestroy()
 
     fun saveOrDeleteFavoriteMovie(movieDetail: PMovieDetail) {
-        dataUseCases
+        databaseUseCases
             .searchMovieInDatabase(movieDetail.id)
             .map(movieDetailMapper::transform)
             .observeOnUi()
@@ -60,7 +62,7 @@ class MovieDetailPresenter(
     }
 
     private fun setMovieAsFavoriteOrNot(movieDetail: PMovieDetail) {
-        dataUseCases
+        databaseUseCases
             .setMovieAsFavoriteOrNot(movieDetail.let(movieDetailMapper::parseBack))
             .subscribeOn(Schedulers.io())
             .observeOnUi()

@@ -40,7 +40,6 @@ dependencies {
 
     implementation deps.koin
 
-    // Rx
     implementation deps.rxJava2
     implementation deps.rxAndroid
     implementation deps.rxKotlin
