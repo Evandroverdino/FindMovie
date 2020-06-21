@@ -18,7 +18,7 @@ class DMovieMapper : SingleMapper<RMovie, DMovie>() {
             originalLanguage = value.originalLanguage,
             originalTitle = value.originalTitle,
             genreIds = value.genreIds,
-            backdropPath = value.backdropPath,
+            backdropPath = value.backdropPath ?: "",
             adult = value.adult,
             overview = value.overview,
             releaseDate = value.releaseDate
