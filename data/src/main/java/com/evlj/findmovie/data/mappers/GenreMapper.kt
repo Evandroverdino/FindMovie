@@ -9,6 +9,7 @@ class GenreMapper : DualMapper<DGenre, Genre>() {
     override fun transform(value: DGenre): Genre {
         return Genre(
             id = value.id,
+            movieId = value.movieId,
             name = value.name
         )
     }
@@ -16,6 +17,7 @@ class GenreMapper : DualMapper<DGenre, Genre>() {
     override fun parseBack(value: Genre): DGenre {
         return DGenre(
             id = value.id,
+            movieId = value.movieId,
             name = value.name
         )
     }

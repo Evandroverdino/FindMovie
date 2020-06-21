@@ -9,6 +9,7 @@ class DGenreMapper : SingleMapper<RGenre, DGenre>() {
     override fun transform(value: RGenre): DGenre {
         return DGenre(
             id = value.id,
+            movieId = 0,
             name = value.name
         )
     }

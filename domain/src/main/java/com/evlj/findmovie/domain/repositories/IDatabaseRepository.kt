@@ -6,7 +6,9 @@ import io.reactivex.Single
 
 interface IDatabaseRepository {
 
-    fun searchMovieInDatabase(movieId: Int): Single<MovieDetail>
+    fun searchMovie(movieId: Int): Single<MovieDetail>
 
-    fun setMovieAsFavoriteOrNot(movieDetail: MovieDetail): Completable
+    fun saveMovie(movieDetail: MovieDetail): Completable
+
+    fun deleteMovie(movieId: Int): Completable
 }

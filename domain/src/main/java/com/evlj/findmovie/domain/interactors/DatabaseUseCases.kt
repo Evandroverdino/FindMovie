@@ -12,11 +12,15 @@ class DatabaseUseCases(
     private val dataRepository: IDatabaseRepository
 ) : BaseUseCase(executor) {
 
-    fun searchMovieInDatabase(movieId: Int): Single<MovieDetail> =
+    fun searchMovie(movieId: Int): Single<MovieDetail> =
         dataRepository
-            .singleOnExecutor { searchMovieInDatabase(movieId) }
+            .singleOnExecutor { searchMovie(movieId) }
 
-    fun setMovieAsFavoriteOrNot(movieDetail: MovieDetail): Completable =
+    fun saveMovie(movieDetail: MovieDetail): Completable =
         dataRepository
-            .completableOnExecutor { setMovieAsFavoriteOrNot(movieDetail) }
+            .completableOnExecutor { saveMovie(movieDetail) }
+
+    fun deleteMovie(movieId: Int): Completable =
+        dataRepository
+            .completableOnExecutor { deleteMovie(movieId) }
 }

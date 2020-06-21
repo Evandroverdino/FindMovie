@@ -41,7 +41,8 @@ class MainPresenter(
                     view.hideProgressBar()
                     view.showMessage(it.message)
                 }
-            ).disposeOnDestroy()
+            )
+            .disposeOnDestroy()
 
         pageResult = page
     }

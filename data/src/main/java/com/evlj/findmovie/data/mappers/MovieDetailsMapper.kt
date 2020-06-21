@@ -1,10 +1,8 @@
 package com.evlj.findmovie.data.mappers
 
-import com.evlj.findmovie.data.entities.DGenre
 import com.evlj.findmovie.data.entities.DMovieDetail
 import com.evlj.findmovie.domain.entities.MovieDetail
 import com.evlj.findmovie.domain.mappers.DualMapper
-import io.realm.RealmList
 
 class MovieDetailsMapper(
     private val genreMapper: GenreMapper
@@ -22,8 +20,7 @@ class MovieDetailsMapper(
             releaseDate = value.releaseDate,
             runtime = value.runtime,
             title = value.title,
-            voteAverage = value.voteAverage,
-            isFavorite = value.isFavorite
+            voteAverage = value.voteAverage
         )
     }
 
@@ -31,16 +28,15 @@ class MovieDetailsMapper(
         return DMovieDetail(
             id = value.id,
             budget = value.budget,
-            genres = RealmList<DGenre>().apply { value.genres.let(genreMapper::parseBack) },
             homepage = value.homepage,
             originalTitle = value.originalTitle,
             overview = value.overview,
+            _genres = value.genres.let(genreMapper::parseBack),
             posterPath = value.posterPath,
             releaseDate = value.releaseDate,
             runtime = value.runtime,
             title = value.title,
-            voteAverage = value.voteAverage,
-            isFavorite = value.isFavorite
+            voteAverage = value.voteAverage
         )
     }
 }

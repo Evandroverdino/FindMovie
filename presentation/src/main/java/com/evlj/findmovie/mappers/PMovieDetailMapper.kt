@@ -36,8 +36,7 @@ class PMovieDetailMapper(
             releaseDate = value.releaseDate,
             runtime = value.runtime,
             title = value.title,
-            voteAverage = value.voteAverage,
-            isFavorite = value.isFavorite
+            voteAverage = value.voteAverage
         )
     }
 }

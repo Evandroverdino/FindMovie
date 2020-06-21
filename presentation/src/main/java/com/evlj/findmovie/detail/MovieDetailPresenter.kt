@@ -6,7 +6,6 @@ import com.evlj.findmovie.domain.interactors.MovieUseCases
 import com.evlj.findmovie.mappers.PMovieDetailMapper
 import com.evlj.findmovie.model.PMovieDetail
 import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
 
 class MovieDetailPresenter(
     private val movieUseCases: MovieUseCases,
@@ -16,20 +15,21 @@ class MovieDetailPresenter(
 
     override fun loadMovieDetails(movieId: Int, apiKey: String, language: String) {
         databaseUseCases
-            .searchMovieInDatabase(movieId)
+            .searchMovie(movieId)
             .map(movieDetailMapper::transform)
             .observeOnUi()
             .subscribeBy(
-                onSuccess = { loadFromRealm(it) },
+                onSuccess = { renderMovieOnView(it) },
                 onError = { loadFromAPI(movieId, apiKey, language) }
-            ).disposeOnDestroy()
+            )
+            .disposeOnDestroy()
     }
 
-    private fun loadFromRealm(movieDetail: PMovieDetail) = with(movieDetail) {
+    private fun renderMovieOnView(movieDetail: PMovieDetail) = with(movieDetail) {
         view.let {
             it.hideProgressBar()
             it.showMovieDetails(this)
-            it.updateFavoriteView(isFavorite)
+            it.updateFavoriteView(true)
         }
     }
 
@@ -48,27 +48,40 @@ class MovieDetailPresenter(
                     view.hideProgressBar()
                     view.showMessage(it.message)
                 }
-            ).disposeOnDestroy()
+            )
+            .disposeOnDestroy()
 
     fun saveOrDeleteFavoriteMovie(movieDetail: PMovieDetail) {
         databaseUseCases
-            .searchMovieInDatabase(movieDetail.id)
+            .searchMovie(movieDetail.id)
             .map(movieDetailMapper::transform)
             .observeOnUi()
             .subscribeBy(
-                onSuccess = { setMovieAsFavoriteOrNot(movieDetail) },
-                onError = { it.printStackTrace() }
-            ).disposeOnDestroy()
+                onSuccess = { deleteMovie(movieDetail.id) },
+                onError = { saveMovie(movieDetail) }
+            )
+            .disposeOnDestroy()
     }
 
-    private fun setMovieAsFavoriteOrNot(movieDetail: PMovieDetail) {
+    private fun saveMovie(movieDetail: PMovieDetail) {
         databaseUseCases
-            .setMovieAsFavoriteOrNot(movieDetail.let(movieDetailMapper::parseBack))
-            .subscribeOn(Schedulers.io())
+            .saveMovie(movieDetail.let(movieDetailMapper::parseBack))
             .observeOnUi()
             .subscribeBy(
-                onComplete = { view.updateFavoriteView(movieDetail.isFavorite) },
+                onComplete = { view.updateFavoriteView(true) },
                 onError = { it.printStackTrace() }
-            ).disposeOnDestroy()
+            )
+            .disposeOnDestroy()
+    }
+
+    private fun deleteMovie(movieId: Int) {
+        databaseUseCases
+            .deleteMovie(movieId)
+            .observeOnUi()
+            .subscribeBy(
+                onComplete = { view.updateFavoriteView() },
+                onError = { it.printStackTrace() }
+            )
+            .disposeOnDestroy()
     }
 }

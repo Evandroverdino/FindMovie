@@ -11,8 +11,7 @@ class PMovieDetail(
     val releaseDate: String,
     val runtime: Int,
     val title: String,
-    val voteAverage: Float,
-    var isFavorite: Boolean = false
+    val voteAverage: Float
 ) {
 
     fun getGenres(): String {

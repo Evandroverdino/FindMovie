@@ -1,7 +1,6 @@
 package com.evlj.findmovie.data.sources.remote.mappers
 
 import com.evlj.findmovie.data.entities.DMovieDetail
-import com.evlj.findmovie.data.helpers.extensions.transformToRealmList
 import com.evlj.findmovie.data.sources.remote.entities.RMovieDetail
 import com.evlj.findmovie.domain.mappers.SingleMapper
 
@@ -13,7 +12,7 @@ class DMovieDetailMapper(
         return DMovieDetail(
             id = value.id,
             budget = value.budget,
-            genres = value.genres.transformToRealmList(genreMapper),
+            _genres = value.genres.let(genreMapper::transform),
             homepage = value.homepage,
             originalTitle = value.originalTitle,
             overview = value.overview,

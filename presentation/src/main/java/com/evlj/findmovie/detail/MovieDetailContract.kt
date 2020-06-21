@@ -9,7 +9,7 @@ interface MovieDetailContract {
     interface View : IBaseActivity {
         fun showMovieDetails(movieDetail: PMovieDetail)
 
-        fun updateFavoriteView(isFavorite: Boolean)
+        fun updateFavoriteView(isFavorite: Boolean = false)
 
         fun showProgressBar()
 

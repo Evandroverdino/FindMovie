@@ -27,6 +27,10 @@ def RX_KOTLIN_VERSION = '2.4.0'
 def RETROFIT_VERSION = '2.5.0'
 def OKHTTP3_LOGGING_INTERCEPTOR_VERSION = '3.12.0'
 
+// ROOM
+def ARCH_COMPONENTS_VERSION = '1.1.1'
+def DEBUG_DB_VERSION = '1.0.6'
+
 ext.deps = [
 
         // Android Support:
@@ -38,7 +42,7 @@ ext.deps = [
         constraintLayout         : "com.android.support.constraint:constraint-layout:$CONSTRAINT_LAYOUT_VERSION",
 
         // Dependency Injection
-        koin                    : "org.koin:koin-android:$KOIN_VERSION",
+        koin                     : "org.koin:koin-android:$KOIN_VERSION",
 
         // Tools & SDKs
         gradlePlugin             : "com.android.tools.build:gradle:$GRADLE_VERSION",
@@ -57,5 +61,11 @@ ext.deps = [
         retrofit                 : "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION",
         retrofitAdapter          : "com.squareup.retrofit2:adapter-rxjava2:$RETROFIT_VERSION",
         retrofitGsonConv         : "com.squareup.retrofit2:converter-gson:$RETROFIT_VERSION",
-        okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_LOGGING_INTERCEPTOR_VERSION"
+        okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_LOGGING_INTERCEPTOR_VERSION",
+
+        // Room:
+        room                     : "android.arch.persistence.room:runtime:$ARCH_COMPONENTS_VERSION",
+        roomRx                   : "android.arch.persistence.room:rxjava2:$ARCH_COMPONENTS_VERSION",
+        kaptRoomCompiler         : "android.arch.persistence.room:compiler:$ARCH_COMPONENTS_VERSION",
+        databaseDebugger         : "com.amitshekhar.android:debug-db:$DEBUG_DB_VERSION"
 ]
