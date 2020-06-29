@@ -11,12 +11,10 @@ def CONSTRAINT_LAYOUT_VERSION = '1.1.3'
 // DEPENDENCY INJECTION
 def KOIN_VERSION = '2.1.6'
 
-// TOOLS PLUGINS
+// PLUGINS
 def GRADLE_VERSION = '3.2.1'
 def GRADLE_GIT_VERSION = '1.7.2'
 def KOTLIN_VERSION = '1.3.11'
-def REALM_VERSION = '5.8.0'
-def PICASSO_VERSION = '2.71828'
 
 // REACTIVE PROGRAMMING:
 def RX_JAVA2_VERSION = '2.2.13'
@@ -27,9 +25,11 @@ def RX_KOTLIN_VERSION = '2.4.0'
 def RETROFIT_VERSION = '2.5.0'
 def OKHTTP3_LOGGING_INTERCEPTOR_VERSION = '3.12.0'
 
+// TOOLS
+def PICASSO_VERSION = '2.71828'
+
 // ROOM
 def ARCH_COMPONENTS_VERSION = '1.1.1'
-def DEBUG_DB_VERSION = '1.0.6'
 
 ext.deps = [
 
@@ -49,7 +49,6 @@ ext.deps = [
         gradleGitPlugin          : "org.ajoberstar:gradle-git:$GRADLE_GIT_VERSION",
         kotlin                   : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION",
         kotlinPlugin             : "org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION",
-        realmPlugin              : "io.realm:realm-gradle-plugin:$REALM_VERSION",
         picasso                  : "com.squareup.picasso:picasso:$PICASSO_VERSION",
 
         // Reactive programming:
@@ -66,6 +65,5 @@ ext.deps = [
         // Room:
         room                     : "android.arch.persistence.room:runtime:$ARCH_COMPONENTS_VERSION",
         roomRx                   : "android.arch.persistence.room:rxjava2:$ARCH_COMPONENTS_VERSION",
-        kaptRoomCompiler         : "android.arch.persistence.room:compiler:$ARCH_COMPONENTS_VERSION",
-        databaseDebugger         : "com.amitshekhar.android:debug-db:$DEBUG_DB_VERSION"
+        kaptRoomCompiler         : "android.arch.persistence.room:compiler:$ARCH_COMPONENTS_VERSION"
 ]

@@ -9,9 +9,8 @@ buildscript {
     }
     dependencies {
         classpath deps.gradlePlugin
-        classpath deps.kotlinPlugin
         classpath deps.gradleGitPlugin
-        classpath deps.realmPlugin
+        classpath deps.kotlinPlugin
     }
 }
 
