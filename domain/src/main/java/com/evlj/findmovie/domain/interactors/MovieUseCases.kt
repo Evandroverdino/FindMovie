@@ -2,15 +2,10 @@ package com.evlj.findmovie.domain.interactors
 
 import com.evlj.findmovie.domain.entities.Discover
 import com.evlj.findmovie.domain.entities.MovieDetail
-import com.evlj.findmovie.domain.executors.IExecutor
-import com.evlj.findmovie.domain.interactors.base.BaseUseCase
 import com.evlj.findmovie.domain.repositories.IMovieRepository
 import kotlinx.coroutines.Deferred
 
-class MovieUseCases(
-    executor: IExecutor,
-    private val dataRepository: IMovieRepository
-) : BaseUseCase(executor) {
+class MovieUseCases(private val dataRepository: IMovieRepository) {
 
     suspend fun getPopularMovies(
         apiKey: String, language: String,

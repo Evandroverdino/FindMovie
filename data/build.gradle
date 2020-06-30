@@ -39,10 +39,6 @@ dependencies {
 
     implementation deps.koin
 
-    implementation deps.rxJava2
-    implementation deps.rxAndroid
-    implementation deps.rxKotlin
-
     implementation deps.coroutinesCore
     implementation deps.coroutinesAndroid
 

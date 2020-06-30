@@ -59,10 +59,6 @@ dependencies {
 
     implementation deps.picasso
 
-    implementation deps.rxJava2
-    implementation deps.rxKotlin
-    implementation deps.rxAndroid
-
     implementation deps.coroutinesCore
     implementation deps.coroutinesAndroid
 }
