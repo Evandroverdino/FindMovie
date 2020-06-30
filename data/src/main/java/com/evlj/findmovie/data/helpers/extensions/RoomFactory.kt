@@ -1,8 +1,8 @@
 package com.evlj.findmovie.data.helpers.extensions
 
-import android.arch.persistence.room.Room
-import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
 inline fun <reified T : RoomDatabase> createRoomDb(context: Context, dbName: String): T {
     return Room

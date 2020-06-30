@@ -1,8 +1,7 @@
 package com.evlj.findmovie.data.sources.local.dao
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.evlj.findmovie.data.entities.DMovieDetail
-import io.reactivex.Single
 
 @Dao
 interface IMovieLocalSource {
@@ -13,7 +12,7 @@ interface IMovieLocalSource {
             WHERE ${DMovieDetail.FIELD_ID} = :movieId
         """
     )
-    fun searchMovie(movieId: Int): Single<DMovieDetail>
+    suspend fun searchMovie(movieId: Int): DMovieDetail
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(movieDetail: DMovieDetail)
@@ -27,7 +26,7 @@ interface IMovieLocalSource {
     fun deleteMovie(movieId: Int)
 
     @Transaction
-    fun transaction(block: IMovieLocalSource.() -> Unit) {
+    suspend fun transaction(block: IMovieLocalSource.() -> Unit) {
         block()
     }
 }

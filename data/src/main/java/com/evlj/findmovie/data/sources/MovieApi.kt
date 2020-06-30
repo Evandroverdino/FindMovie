@@ -2,7 +2,6 @@ package com.evlj.findmovie.data.sources
 
 import com.evlj.findmovie.data.sources.remote.entities.RDiscover
 import com.evlj.findmovie.data.sources.remote.entities.RMovieDetail
-import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -20,10 +19,9 @@ interface MovieApi {
     ): RDiscover
 
     @GET("movie/{id}")
-    fun getMovieDetails(
+    suspend fun getMovieDetails(
         @Path("id") movieId: Int,
         @Query("api_key") apiKey: String,
         @Query("language") language: String
-    ): Single<RMovieDetail>
-
+    ): RMovieDetail
 }

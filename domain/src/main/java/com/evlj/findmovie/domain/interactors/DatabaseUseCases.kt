@@ -4,23 +4,19 @@ import com.evlj.findmovie.domain.entities.MovieDetail
 import com.evlj.findmovie.domain.executors.IExecutor
 import com.evlj.findmovie.domain.interactors.base.BaseUseCase
 import com.evlj.findmovie.domain.repositories.IDatabaseRepository
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 
 class DatabaseUseCases(
     executor: IExecutor,
     private val dataRepository: IDatabaseRepository
 ) : BaseUseCase(executor) {
 
-    fun searchMovie(movieId: Int): Single<MovieDetail> =
-        dataRepository
-            .singleOnExecutor { searchMovie(movieId) }
+    suspend fun searchMovie(movieId: Int): Deferred<MovieDetail> =
+        dataRepository.searchMovie(movieId)
 
-    fun saveMovie(movieDetail: MovieDetail): Completable =
-        dataRepository
-            .completableOnExecutor { saveMovie(movieDetail) }
+    suspend fun saveMovie(movieDetail: MovieDetail): Deferred<Unit> =
+        dataRepository.saveMovie(movieDetail)
 
-    fun deleteMovie(movieId: Int): Completable =
-        dataRepository
-            .completableOnExecutor { deleteMovie(movieId) }
+    suspend fun deleteMovie(movieId: Int): Deferred<Unit> =
+        dataRepository.deleteMovie(movieId)
 }

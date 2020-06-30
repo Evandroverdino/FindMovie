@@ -5,14 +5,14 @@ import com.evlj.findmovie.data.mappers.MovieDetailsMapper
 import com.evlj.findmovie.data.sources.remote.IDataRemoteSource
 import com.evlj.findmovie.domain.entities.Discover
 import com.evlj.findmovie.domain.entities.MovieDetail
+import com.evlj.findmovie.domain.executors.IDispatcherProvider
 import com.evlj.findmovie.domain.repositories.IMovieRepository
-import io.reactivex.Single
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class MovieRepository(
+    private val dispatcher: IDispatcherProvider,
     private val dataRemoteSource: IDataRemoteSource,
     private val discoverMapper: DiscoverMapper,
     private val movieDetailMapper: MovieDetailsMapper
@@ -25,7 +25,7 @@ class MovieRepository(
         includeAdult: Boolean,
         includeVideo: Boolean,
         page: Int
-    ): Deferred<Discover> = withContext(Dispatchers.IO) {
+    ): Deferred<Discover> = withContext(dispatcher.background) {
         async {
             dataRemoteSource
                 .getPopularMovies(
@@ -41,16 +41,20 @@ class MovieRepository(
         }
     }
 
-    override fun getMovieDetails(
+    override suspend fun getMovieDetails(
         movieId: Int,
         apiKey: String,
         language: String
-    ): Single<MovieDetail> =
-        dataRemoteSource
-            .getMovieDetails(
-                movieId = movieId,
-                apiKey = apiKey,
-                language = language
-            )
-            .map(movieDetailMapper::transform)
+    ): Deferred<MovieDetail> = withContext(dispatcher.background) {
+        async {
+            dataRemoteSource
+                .getMovieDetails(
+                    movieId = movieId,
+                    apiKey = apiKey,
+                    language = language
+                )
+                .await()
+                .let(movieDetailMapper::transform)
+        }
+    }
 }

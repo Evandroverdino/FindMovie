@@ -1,14 +1,13 @@
 package com.evlj.findmovie.domain.repositories
 
 import com.evlj.findmovie.domain.entities.MovieDetail
-import io.reactivex.Completable
-import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 
 interface IDatabaseRepository {
 
-    fun searchMovie(movieId: Int): Single<MovieDetail>
+    suspend fun searchMovie(movieId: Int): Deferred<MovieDetail>
 
-    fun saveMovie(movieDetail: MovieDetail): Completable
+    suspend fun saveMovie(movieDetail: MovieDetail): Deferred<Unit>
 
-    fun deleteMovie(movieId: Int): Completable
+    suspend fun deleteMovie(movieId: Int): Deferred<Unit>
 }

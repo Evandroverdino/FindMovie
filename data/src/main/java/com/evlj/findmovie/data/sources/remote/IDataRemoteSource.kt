@@ -2,7 +2,6 @@ package com.evlj.findmovie.data.sources.remote
 
 import com.evlj.findmovie.data.entities.DDiscover
 import com.evlj.findmovie.data.entities.DMovieDetail
-import io.reactivex.Single
 import kotlinx.coroutines.Deferred
 
 interface IDataRemoteSource {
@@ -13,8 +12,8 @@ interface IDataRemoteSource {
         includeVideo: Boolean, page: Int
     ): Deferred<DDiscover>
 
-    fun getMovieDetails(
+    suspend fun getMovieDetails(
         movieId: Int, apiKey: String,
         language: String
-    ): Single<DMovieDetail>
+    ): Deferred<DMovieDetail>
 }

@@ -6,7 +6,7 @@ import com.evlj.findmovie.data.sources.remote.IDataRemoteSource
 import org.koin.dsl.module
 
 val dataSourceModule = module {
-    single<IDataRemoteSource> { DataRemoteSource(get(), get(), get()) }
+    single<IDataRemoteSource> { DataRemoteSource(get(), get(), get(), get()) }
 
     single { get<DatabaseSource>().movieLocalSource() }
     single { get<DatabaseSource>().genreLocalSource() }

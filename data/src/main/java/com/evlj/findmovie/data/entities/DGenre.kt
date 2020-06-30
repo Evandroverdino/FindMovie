@@ -1,6 +1,6 @@
 package com.evlj.findmovie.data.entities
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import com.evlj.findmovie.data.entities.DGenre.Companion.FIELD_MOVIE_ID
 import com.evlj.findmovie.data.entities.DGenre.Companion.TABLE_NAME
 

@@ -5,7 +5,6 @@ import com.evlj.findmovie.domain.entities.MovieDetail
 import com.evlj.findmovie.domain.executors.IExecutor
 import com.evlj.findmovie.domain.interactors.base.BaseUseCase
 import com.evlj.findmovie.domain.repositories.IMovieRepository
-import io.reactivex.Single
 import kotlinx.coroutines.Deferred
 
 class MovieUseCases(
@@ -28,17 +27,15 @@ class MovieUseCases(
                 page = page
             )
 
-    fun getMovieDetails(
+    suspend fun getMovieDetails(
         movieId: Int,
         apiKey: String,
         language: String
-    ): Single<MovieDetail> =
+    ): Deferred<MovieDetail> =
         dataRepository
-            .singleOnExecutor {
-                getMovieDetails(
-                    movieId = movieId,
-                    apiKey = apiKey,
-                    language = language
-                )
-            }
+            .getMovieDetails(
+                movieId = movieId,
+                apiKey = apiKey,
+                language = language
+            )
 }

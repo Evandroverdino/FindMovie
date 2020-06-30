@@ -6,5 +6,5 @@ import org.koin.dsl.module
 
 val presentationPresenterModule = module {
     factory { MainPresenter(get(), get(), get()) }
-    factory { MovieDetailPresenter(get(), get(), get()) }
+    factory { MovieDetailPresenter(get(), get(), get(), get()) }
 }

@@ -8,8 +8,8 @@ import io.reactivex.disposables.CompositeDisposable
 import org.koin.dsl.module
 
 val dataRepositoryModule = module {
-    single<IMovieRepository> { MovieRepository(get(), get(), get()) }
-    single<IDatabaseRepository> { DatabaseRepository(get(), get(), get()) }
+    single<IMovieRepository> { MovieRepository(get(), get(), get(), get()) }
+    single<IDatabaseRepository> { DatabaseRepository(get(), get(), get(), get()) }
 
     factory { CompositeDisposable() }
 }

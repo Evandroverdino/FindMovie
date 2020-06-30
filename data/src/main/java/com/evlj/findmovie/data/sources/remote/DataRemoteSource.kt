@@ -5,14 +5,14 @@ import com.evlj.findmovie.data.entities.DMovieDetail
 import com.evlj.findmovie.data.sources.MovieApi
 import com.evlj.findmovie.data.sources.remote.mappers.DDiscoverMapper
 import com.evlj.findmovie.data.sources.remote.mappers.DMovieDetailMapper
-import io.reactivex.Single
+import com.evlj.findmovie.domain.executors.IDispatcherProvider
 import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
 class DataRemoteSource(
     private val movieApi: MovieApi,
+    private val dispatcher: IDispatcherProvider,
     private val discoverMapper: DDiscoverMapper,
     private val movieDetailMapper: DMovieDetailMapper
 ) : IDataRemoteSource {
@@ -21,31 +21,36 @@ class DataRemoteSource(
         apiKey: String, language: String,
         sortBy: String, includeAdult: Boolean,
         includeVideo: Boolean, page: Int
-    ): Deferred<DDiscover> = withContext(Dispatchers.IO) {
-        async {
-            movieApi
-                .getPopularMovies(
-                    apiKey = apiKey,
-                    language = language,
-                    sortBy = sortBy,
-                    includeAdult = includeAdult,
-                    includeVideo = includeVideo,
-                    page = page
-                )
-                .let(discoverMapper::transform)
+    ): Deferred<DDiscover> =
+        withContext(dispatcher.background) {
+            async {
+                movieApi
+                    .getPopularMovies(
+                        apiKey = apiKey,
+                        language = language,
+                        sortBy = sortBy,
+                        includeAdult = includeAdult,
+                        includeVideo = includeVideo,
+                        page = page
+                    )
+                    .let(discoverMapper::transform)
+            }
         }
-    }
 
-    override fun getMovieDetails(
+    override suspend fun getMovieDetails(
         movieId: Int,
         apiKey: String,
         language: String
-    ): Single<DMovieDetail> =
-        movieApi
-            .getMovieDetails(
-                movieId = movieId,
-                apiKey = apiKey,
-                language = language
-            )
-            .map(movieDetailMapper::transform)
+    ): Deferred<DMovieDetail> =
+        withContext(dispatcher.background) {
+            async {
+                movieApi
+                    .getMovieDetails(
+                        movieId = movieId,
+                        apiKey = apiKey,
+                        language = language
+                    )
+                    .let(movieDetailMapper::transform)
+            }
+        }
 }

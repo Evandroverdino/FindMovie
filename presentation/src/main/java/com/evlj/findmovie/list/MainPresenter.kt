@@ -5,27 +5,17 @@ import com.evlj.findmovie.domain.executors.IDispatcherProvider
 import com.evlj.findmovie.domain.interactors.MovieUseCases
 import com.evlj.findmovie.list.listener.RecyclerScrollListener
 import com.evlj.findmovie.mappers.PDiscoverMapper
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MainPresenter(
-    private val movieUseCases: MovieUseCases,
     private val dispatcherProvider: IDispatcherProvider,
+    private val movieUseCases: MovieUseCases,
     private val discoverMapper: PDiscoverMapper
-) : BasePresenter<MainContract.View>(), MainContract.Presenter {
+) : BasePresenter<MainContract.View>(dispatcherProvider), MainContract.Presenter {
 
-    var pageResult: Int = 0
-    var totalPageResults: Int = 0
-
-    private val coroutineSupervisor by lazy { SupervisorJob() }
-    private val coroutineScope = CoroutineScope(dispatcherProvider.main + coroutineSupervisor)
-
-    override fun onDetachView() {
-        super.onDetachView()
-        coroutineSupervisor.cancel()
-    }
+    private var pageResult: Int = 0
+    private var totalPageResults: Int = 0
 
     override fun loadPopularMovies(
         apiKey: String, language: String,
