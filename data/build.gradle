@@ -50,8 +50,7 @@ dependencies {
     implementation deps.retrofitGsonConv
     implementation deps.okhttp3LoggingInterceptor
 
-    // Room
     implementation deps.room
-    implementation deps.roomRx
+    implementation deps.roomExtensions
     kapt deps.kaptRoomCompiler
 }

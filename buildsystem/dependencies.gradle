@@ -32,7 +32,7 @@ def OKHTTP3_LOGGING_INTERCEPTOR_VERSION = '3.12.0'
 def PICASSO_VERSION = '2.71828'
 
 // ROOM
-def ARCH_COMPONENTS_VERSION = '1.1.1'
+def ROOM_ARCH_COMPONENTS_VERSION = '2.2.5'
 
 ext.deps = [
 
@@ -69,7 +69,7 @@ ext.deps = [
         okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$OKHTTP3_LOGGING_INTERCEPTOR_VERSION",
 
         // Room:
-        room                     : "android.arch.persistence.room:runtime:$ARCH_COMPONENTS_VERSION",
-        roomRx                   : "android.arch.persistence.room:rxjava2:$ARCH_COMPONENTS_VERSION",
-        kaptRoomCompiler         : "android.arch.persistence.room:compiler:$ARCH_COMPONENTS_VERSION"
+        room                     : "androidx.room:room-runtime:$ROOM_ARCH_COMPONENTS_VERSION",
+        roomExtensions           : "androidx.room:room-ktx:$ROOM_ARCH_COMPONENTS_VERSION",
+        kaptRoomCompiler         : "androidx.room:room-compiler:$ROOM_ARCH_COMPONENTS_VERSION"
 ]
