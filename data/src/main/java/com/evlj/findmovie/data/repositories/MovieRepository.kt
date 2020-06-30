@@ -7,6 +7,10 @@ import com.evlj.findmovie.domain.entities.Discover
 import com.evlj.findmovie.domain.entities.MovieDetail
 import com.evlj.findmovie.domain.repositories.IMovieRepository
 import io.reactivex.Single
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 class MovieRepository(
     private val dataRemoteSource: IDataRemoteSource,
@@ -14,24 +18,28 @@ class MovieRepository(
     private val movieDetailMapper: MovieDetailsMapper
 ) : IMovieRepository {
 
-    override fun getPopularMovies(
+    override suspend fun getPopularMovies(
         apiKey: String,
         language: String,
         sortBy: String,
         includeAdult: Boolean,
         includeVideo: Boolean,
         page: Int
-    ): Single<Discover> =
-        dataRemoteSource
-            .getPopularMovies(
-                apiKey = apiKey,
-                language = language,
-                sortBy = sortBy,
-                includeAdult = includeAdult,
-                includeVideo = includeVideo,
-                page = page
-            )
-            .map(discoverMapper::transform)
+    ): Deferred<Discover> = withContext(Dispatchers.IO) {
+        async {
+            dataRemoteSource
+                .getPopularMovies(
+                    apiKey = apiKey,
+                    language = language,
+                    sortBy = sortBy,
+                    includeAdult = includeAdult,
+                    includeVideo = includeVideo,
+                    page = page
+                )
+                .await()
+                .let(discoverMapper::transform)
+        }
+    }
 
     override fun getMovieDetails(
         movieId: Int,

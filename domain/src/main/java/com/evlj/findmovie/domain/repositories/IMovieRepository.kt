@@ -3,14 +3,15 @@ package com.evlj.findmovie.domain.repositories
 import com.evlj.findmovie.domain.entities.Discover
 import com.evlj.findmovie.domain.entities.MovieDetail
 import io.reactivex.Single
+import kotlinx.coroutines.Deferred
 
 interface IMovieRepository {
 
-    fun getPopularMovies(
+    suspend fun getPopularMovies(
         apiKey: String, language: String,
         sortBy: String, includeAdult: Boolean,
         includeVideo: Boolean, page: Int
-    ): Single<Discover>
+    ): Deferred<Discover>
 
     fun getMovieDetails(
         movieId: Int,
