@@ -43,8 +43,10 @@ dependencies {
     implementation deps.rxAndroid
     implementation deps.rxKotlin
 
+    implementation deps.coroutinesCore
+    implementation deps.coroutinesAndroid
+
     implementation deps.retrofit
-    implementation deps.retrofitAdapter
     implementation deps.retrofitGsonConv
     implementation deps.okhttp3LoggingInterceptor
 

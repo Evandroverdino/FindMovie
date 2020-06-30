@@ -38,4 +38,7 @@ dependencies {
 
     implementation deps.rxJava2
     implementation deps.rxKotlin
+
+    implementation deps.coroutinesCore
+    implementation deps.coroutinesAndroid
 }

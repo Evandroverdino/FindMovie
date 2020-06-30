@@ -34,6 +34,9 @@ android {
         sourceCompatibility sdk.sourceCompatibilityVersion
         targetCompatibility sdk.targetCompatibilityVersion
     }
+    packagingOptions {
+        exclude 'META-INF/proguard/coroutines.pro'
+    }
 }
 
 dependencies {
@@ -58,4 +61,7 @@ dependencies {
     implementation deps.rxJava2
     implementation deps.rxKotlin
     implementation deps.rxAndroid
+
+    implementation deps.coroutinesCore
+    implementation deps.coroutinesAndroid
 }
