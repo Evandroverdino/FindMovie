@@ -1,8 +1,8 @@
 package com.evlj.findmovie.base.adapter
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 import com.evlj.findmovie.shared.extensions.tryOrNull
 import kotlin.reflect.KClass
 

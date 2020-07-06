@@ -3,9 +3,9 @@ package com.evlj.findmovie.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.NavUtils
-import android.support.v4.content.ContextCompat
 import android.view.MenuItem
+import androidx.core.app.NavUtils
+import androidx.core.content.ContextCompat
 import com.evlj.findmovie.R
 import com.evlj.findmovie.base.activity.BaseActivity
 import com.evlj.findmovie.model.PMovieDetail
