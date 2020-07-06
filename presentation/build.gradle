@@ -49,10 +49,10 @@ dependencies {
     implementation deps.kotlin
 
     implementation deps.koin
+    implementation deps.koinViewModel
 
     implementation deps.appCompat
     implementation deps.supportDesign
-    implementation deps.supportCompat
     implementation deps.supportRecyclerView
     implementation deps.supportCardView
     implementation deps.constraintLayout
@@ -61,4 +61,7 @@ dependencies {
 
     implementation deps.coroutinesCore
     implementation deps.coroutinesAndroid
+
+    implementation deps.viewModelKxt
+    implementation deps.liveDataKxt
 }
