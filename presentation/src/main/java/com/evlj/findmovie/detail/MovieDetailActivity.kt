@@ -55,7 +55,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
     private fun setupView() {
         setupToolbar()
         intent.extras?.getInt(MOVIE_ID)?.let {
-            presenter.loadMovieDetails(it, Constants.API_KEY, Constants.API_LANGUAGE)
+            presenter.loadMovieDetails(it, Constants.API_LANGUAGE)
         }
     }
 

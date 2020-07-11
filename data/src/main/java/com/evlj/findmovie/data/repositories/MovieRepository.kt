@@ -19,21 +19,15 @@ class MovieRepository(
 ) : IMovieRepository {
 
     override suspend fun getPopularMovies(
-        apiKey: String,
         language: String,
         sortBy: String,
-        includeAdult: Boolean,
-        includeVideo: Boolean,
         page: Int
     ): Deferred<Discover> = withContext(dispatcher.background) {
         async {
             dataRemoteSource
                 .getPopularMovies(
-                    apiKey = apiKey,
                     language = language,
                     sortBy = sortBy,
-                    includeAdult = includeAdult,
-                    includeVideo = includeVideo,
                     page = page
                 )
                 .await()
@@ -43,14 +37,12 @@ class MovieRepository(
 
     override suspend fun getMovieDetails(
         movieId: Int,
-        apiKey: String,
         language: String
     ): Deferred<MovieDetail> = withContext(dispatcher.background) {
         async {
             dataRemoteSource
                 .getMovieDetails(
                     movieId = movieId,
-                    apiKey = apiKey,
                     language = language
                 )
                 .await()

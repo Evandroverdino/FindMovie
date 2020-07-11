@@ -8,29 +8,24 @@ import kotlinx.coroutines.Deferred
 class MovieUseCases(private val dataRepository: IMovieRepository) {
 
     suspend fun getPopularMovies(
-        apiKey: String, language: String,
-        sortBy: String, includeAdult: Boolean,
-        includeVideo: Boolean, page: Int
+        language: String,
+        sortBy: String,
+        page: Int
     ): Deferred<Discover> =
         dataRepository
             .getPopularMovies(
-                apiKey = apiKey,
                 language = language,
                 sortBy = sortBy,
-                includeAdult = includeAdult,
-                includeVideo = includeVideo,
                 page = page
             )
 
     suspend fun getMovieDetails(
         movieId: Int,
-        apiKey: String,
         language: String
     ): Deferred<MovieDetail> =
         dataRepository
             .getMovieDetails(
                 movieId = movieId,
-                apiKey = apiKey,
                 language = language
             )
 }

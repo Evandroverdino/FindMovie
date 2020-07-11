@@ -18,19 +18,16 @@ class DataRemoteSource(
 ) : IDataRemoteSource {
 
     override suspend fun getPopularMovies(
-        apiKey: String, language: String,
-        sortBy: String, includeAdult: Boolean,
-        includeVideo: Boolean, page: Int
+        language: String,
+        sortBy: String,
+        page: Int
     ): Deferred<DDiscover> =
         withContext(dispatcher.background) {
             async {
                 movieApi
                     .getPopularMovies(
-                        apiKey = apiKey,
                         language = language,
                         sortBy = sortBy,
-                        includeAdult = includeAdult,
-                        includeVideo = includeVideo,
                         page = page
                     )
                     .let(discoverMapper::transform)
@@ -39,7 +36,6 @@ class DataRemoteSource(
 
     override suspend fun getMovieDetails(
         movieId: Int,
-        apiKey: String,
         language: String
     ): Deferred<DMovieDetail> =
         withContext(dispatcher.background) {
@@ -47,7 +43,6 @@ class DataRemoteSource(
                 movieApi
                     .getMovieDetails(
                         movieId = movieId,
-                        apiKey = apiKey,
                         language = language
                     )
                     .let(movieDetailMapper::transform)

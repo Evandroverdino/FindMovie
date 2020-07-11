@@ -16,7 +16,7 @@ class MovieDetailPresenter(
     private val movieDetailMapper: PMovieDetailMapper
 ) : BasePresenter<MovieDetailContract.View>(dispatcherProvider), MovieDetailContract.Presenter {
 
-    override fun loadMovieDetails(movieId: Int, apiKey: String, language: String) {
+    override fun loadMovieDetails(movieId: Int, language: String) {
         coroutineScope.launch {
             try {
                 withContext(dispatcherProvider.background) {
@@ -28,7 +28,7 @@ class MovieDetailPresenter(
                     renderMovieOnView(it)
                 }
             } catch (exception: Exception) {
-                loadFromAPI(movieId, apiKey, language)
+                loadFromAPI(movieId, language)
             }
         }
     }
@@ -41,13 +41,13 @@ class MovieDetailPresenter(
         }
     }
 
-    private fun loadFromAPI(movieId: Int, apiKey: String, language: String) {
+    private fun loadFromAPI(movieId: Int, language: String) {
         coroutineScope.launch {
             try {
                 view.showProgressBar()
                 withContext(dispatcherProvider.background) {
                     movieUseCases
-                        .getMovieDetails(movieId, apiKey, language)
+                        .getMovieDetails(movieId, language)
                         .await()
                         .let(movieDetailMapper::transform)
                 }.let {

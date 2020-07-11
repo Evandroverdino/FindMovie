@@ -46,11 +46,8 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun loadMorePopularMovies(pageResult: Int) {
         mainViewModel.loadPopularMovies(
-            apiKey = Constants.API_KEY,
             language = Constants.API_LANGUAGE,
             sortBy = Constants.API_SORT_BY,
-            includeAdult = false,
-            includeVideo = false,
             page = pageResult
         )
     }
@@ -79,11 +76,8 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     private fun setupAdapter() {
         mainViewModel.loadPopularMovies(
-            apiKey = Constants.API_KEY,
             language = Constants.API_LANGUAGE,
             sortBy = Constants.API_SORT_BY,
-            includeAdult = false,
-            includeVideo = false,
             page = Constants.API_PAGE_RESULT
         )
     }

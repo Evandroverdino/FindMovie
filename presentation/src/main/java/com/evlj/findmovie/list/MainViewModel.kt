@@ -21,20 +21,17 @@ class MainViewModel(
     private val movies: MutableLiveData<List<PMovie>> by lazy { MutableLiveData<List<PMovie>>() }
 
     fun loadPopularMovies(
-        apiKey: String, language: String,
-        sortBy: String, includeAdult: Boolean,
-        includeVideo: Boolean, page: Int
+        language: String,
+        sortBy: String,
+        page: Int
     ) {
         viewModelScope.launch {
             try {
                 withContext(dispatcherProvider.background) {
                     movieUseCases
                         .getPopularMovies(
-                            apiKey = apiKey,
                             language = language,
                             sortBy = sortBy,
-                            includeAdult = includeAdult,
-                            includeVideo = includeVideo,
                             page = page
                         )
                         .await()

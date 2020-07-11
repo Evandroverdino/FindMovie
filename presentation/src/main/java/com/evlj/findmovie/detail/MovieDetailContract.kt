@@ -17,10 +17,6 @@ interface MovieDetailContract {
     }
 
     interface Presenter : IBasePresenter<View> {
-        fun loadMovieDetails(
-            movieId: Int,
-            apiKey: String,
-            language: String
-        )
+        fun loadMovieDetails(movieId: Int, language: String)
     }
 }
