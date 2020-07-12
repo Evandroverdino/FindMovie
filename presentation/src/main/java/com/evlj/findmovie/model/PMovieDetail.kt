@@ -3,27 +3,30 @@ package com.evlj.findmovie.model
 class PMovieDetail(
     val id: Int,
     val budget: Float,
-    val genres: List<PGenre>,
+    val _genres: List<PGenre>,
     val homepage: String,
     val originalTitle: String,
     val overview: String,
     val posterPath: String,
     val releaseDate: String,
-    val runtime: Int,
+    val _runtime: Int,
     val title: String,
-    val voteAverage: Float
+    val _voteAverage: Float
 ) {
 
-    fun getGenres(): String {
-        val genresList = StringBuilder()
-        genres.forEachIndexed { index, genre ->
-            genresList.append(genre.name)
-            genresList.append(if (index != genres.size - 1) ", " else "")
+    val genres: String
+        get() {
+            val genresList = StringBuilder()
+            _genres.forEachIndexed { index, genre ->
+                genresList.append(genre.name)
+                genresList.append(if (index != _genres.size - 1) ", " else "")
+            }
+            return genresList.toString()
         }
-        return genresList.toString()
-    }
 
-    fun getRuntime(): String = "$runtime min"
+    val runtime: String
+        get() = "$_runtime min"
 
-    fun getVoteAverage(): String = voteAverage.toString()
+    val voteAverage: String
+        get() = _voteAverage.toString()
 }

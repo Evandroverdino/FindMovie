@@ -12,15 +12,15 @@ class PMovieDetailMapper(
         return PMovieDetail(
             id = value.id,
             budget = value.budget,
-            genres = value.genres.let(genresMapper::transform),
+            _genres = value.genres.let(genresMapper::transform),
             homepage = value.homepage,
             originalTitle = value.originalTitle,
             overview = value.overview,
             posterPath = value.posterPath,
             releaseDate = value.releaseDate,
-            runtime = value.runtime,
+            _runtime = value.runtime,
             title = value.title,
-            voteAverage = value.voteAverage
+            _voteAverage = value.voteAverage
         )
     }
 
@@ -28,15 +28,15 @@ class PMovieDetailMapper(
         return MovieDetail(
             id = value.id,
             budget = value.budget,
-            genres = value.genres.let(genresMapper::parseBack),
+            genres = value._genres.let(genresMapper::parseBack),
             homepage = value.homepage,
             originalTitle = value.originalTitle,
             overview = value.overview,
             posterPath = value.posterPath,
             releaseDate = value.releaseDate,
-            runtime = value.runtime,
+            runtime = value._runtime,
             title = value.title,
-            voteAverage = value.voteAverage
+            voteAverage = value._voteAverage
         )
     }
 }

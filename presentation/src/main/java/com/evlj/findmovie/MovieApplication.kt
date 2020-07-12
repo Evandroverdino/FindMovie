@@ -4,7 +4,7 @@ import android.app.Application
 import com.evlj.findmovie.data.di.*
 import com.evlj.findmovie.di.presentationAppModule
 import com.evlj.findmovie.di.presentationMapperModule
-import com.evlj.findmovie.di.presentationPresenterModule
+import com.evlj.findmovie.di.presentationViewModelModule
 import com.evlj.findmovie.domain.di.domainUseCaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -25,7 +25,7 @@ class MovieApplication : Application() {
                 listOf(
                     presentationAppModule,
                     presentationMapperModule,
-                    presentationPresenterModule,
+                    presentationViewModelModule,
                     domainUseCaseModule,
                     dataAppModule,
                     dataMapperModule,

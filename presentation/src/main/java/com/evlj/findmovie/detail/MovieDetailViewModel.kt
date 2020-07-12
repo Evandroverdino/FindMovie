@@ -1,6 +1,9 @@
 package com.evlj.findmovie.detail
 
-import com.evlj.findmovie.base.presenter.BasePresenter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.evlj.findmovie.domain.executors.IDispatcherProvider
 import com.evlj.findmovie.domain.interactors.DatabaseUseCases
 import com.evlj.findmovie.domain.interactors.MovieUseCases
@@ -9,23 +12,31 @@ import com.evlj.findmovie.model.PMovieDetail
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class MovieDetailPresenter(
+class MovieDetailViewModel(
     private val dispatcherProvider: IDispatcherProvider,
     private val movieUseCases: MovieUseCases,
     private val databaseUseCases: DatabaseUseCases,
     private val movieDetailMapper: PMovieDetailMapper
-) : BasePresenter<MovieDetailContract.View>(dispatcherProvider), MovieDetailContract.Presenter {
+) : ViewModel() {
 
-    override fun loadMovieDetails(movieId: Int, language: String) {
-        coroutineScope.launch {
+    private val movieDetail: MutableLiveData<PMovieDetail> by lazy { MutableLiveData<PMovieDetail>() }
+    private val movieIsFavorite: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    private val progressBarVisibility: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    private val error: MutableLiveData<Exception> by lazy { MutableLiveData<Exception>() }
+
+    fun loadMovieDetails(movieId: Int, language: String) {
+        viewModelScope.launch {
             try {
+                progressBarVisibility.postValue(true)
                 withContext(dispatcherProvider.background) {
                     databaseUseCases
                         .searchMovie(movieId)
                         .await()
                         .let(movieDetailMapper::transform)
                 }.let {
-                    renderMovieOnView(it)
+                    progressBarVisibility.postValue(false)
+                    movieDetail.postValue(it)
+                    movieIsFavorite.postValue(true)
                 }
             } catch (exception: Exception) {
                 loadFromAPI(movieId, language)
@@ -33,36 +44,8 @@ class MovieDetailPresenter(
         }
     }
 
-    private fun renderMovieOnView(movieDetail: PMovieDetail) = with(movieDetail) {
-        view.let {
-            it.hideProgressBar()
-            it.showMovieDetails(this)
-            it.updateFavoriteView(true)
-        }
-    }
-
-    private fun loadFromAPI(movieId: Int, language: String) {
-        coroutineScope.launch {
-            try {
-                view.showProgressBar()
-                withContext(dispatcherProvider.background) {
-                    movieUseCases
-                        .getMovieDetails(movieId, language)
-                        .await()
-                        .let(movieDetailMapper::transform)
-                }.let {
-                    view.hideProgressBar()
-                    view.showMovieDetails(it)
-                }
-            } catch (exception: Exception) {
-                view.hideProgressBar()
-                view.showMessage(exception.message)
-            }
-        }
-    }
-
     fun saveOrDeleteFavoriteMovie(movieDetail: PMovieDetail) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             try {
                 withContext(dispatcherProvider.background) {
                     databaseUseCases
@@ -78,35 +61,61 @@ class MovieDetailPresenter(
         }
     }
 
+    private fun loadFromAPI(movieId: Int, language: String) {
+        viewModelScope.launch {
+            try {
+                withContext(dispatcherProvider.background) {
+                    movieUseCases
+                        .getMovieDetails(movieId, language)
+                        .await()
+                        .let(movieDetailMapper::transform)
+                }.let {
+                    progressBarVisibility.postValue(false)
+                    movieDetail.postValue(it)
+                    movieIsFavorite.postValue(false)
+                }
+            } catch (exception: Exception) {
+                progressBarVisibility.postValue(false)
+                error.postValue(exception)
+            }
+        }
+    }
+
     private fun saveMovie(movieDetail: PMovieDetail) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             try {
                 withContext(dispatcherProvider.background) {
                     databaseUseCases
                         .saveMovie(movieDetail.let(movieDetailMapper::parseBack))
                         .await()
                 }.let {
-                    view.updateFavoriteView(true)
+                    movieIsFavorite.postValue(true)
                 }
             } catch (exception: Exception) {
-                exception.printStackTrace()
+                error.postValue(exception)
             }
         }
     }
 
     private fun deleteMovie(movieId: Int) {
-        coroutineScope.launch {
+        viewModelScope.launch {
             try {
                 withContext(dispatcherProvider.background) {
                     databaseUseCases
                         .deleteMovie(movieId)
                         .await()
                 }.let {
-                    view.updateFavoriteView()
+                    movieIsFavorite.postValue(false)
                 }
             } catch (exception: Exception) {
-                exception.printStackTrace()
+                error.postValue(exception)
             }
         }
     }
+
+    fun getMovieDetails(): LiveData<PMovieDetail> = movieDetail
+    fun getMovieIsFavorite(): LiveData<Boolean> = movieIsFavorite
+    fun getProgressState(): LiveData<Boolean> = progressBarVisibility
+    fun getError(): LiveData<Exception> = error
+
 }

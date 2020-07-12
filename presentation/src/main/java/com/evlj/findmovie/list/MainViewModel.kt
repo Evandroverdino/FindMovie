@@ -19,6 +19,8 @@ class MainViewModel(
 
     private val totalPageResults: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
     private val movies: MutableLiveData<List<PMovie>> by lazy { MutableLiveData<List<PMovie>>() }
+    private val progressBarVisibility: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    private val error: MutableLiveData<Exception> by lazy { MutableLiveData<Exception>() }
 
     fun loadPopularMovies(
         language: String,
@@ -27,6 +29,7 @@ class MainViewModel(
     ) {
         viewModelScope.launch {
             try {
+                progressBarVisibility.postValue(true)
                 withContext(dispatcherProvider.background) {
                     movieUseCases
                         .getPopularMovies(
@@ -37,15 +40,19 @@ class MainViewModel(
                         .await()
                         .let(discoverMapper::transform)
                 }.let {
+                    progressBarVisibility.postValue(false)
                     movies.postValue(it.results)
-                    totalPageResults.value = it.totalPages
+                    totalPageResults.postValue(it.totalPages)
                 }
             } catch (exception: Exception) {
-                exception.printStackTrace()
+                progressBarVisibility.postValue(false)
+                error.postValue(exception)
             }
         }
     }
 
     fun getMovies(): LiveData<List<PMovie>> = movies
     fun getPageResults(): LiveData<Int> = totalPageResults
+    fun getProgressState(): LiveData<Boolean> = progressBarVisibility
+    fun getError(): LiveData<Exception> = error
 }

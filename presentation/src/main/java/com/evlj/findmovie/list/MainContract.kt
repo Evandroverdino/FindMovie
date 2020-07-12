@@ -9,10 +9,6 @@ interface MainContract {
         fun loadMorePopularMovies(pageResult: Int)
 
         fun navigateToMovieDetail(movieId: Int)
-
-        fun showProgressBar()
-
-        fun hideProgressBar()
     }
 
     //TODO Add interface and implement on viewModel

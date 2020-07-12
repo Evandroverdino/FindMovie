@@ -29,10 +29,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private val mainViewModel by viewModel<MainViewModel>()
 
     private val moviesAdapter: AnyRvAdapter by lazy {
-        AnyRvAdapter(
-            mapOf(PMovie::class to PopularMovieItemController),
-            emptyList()
-        ) { _, item ->
+        AnyRvAdapter(mapOf(PMovie::class to PopularMovieItemController)) { _, item ->
             navigateToMovieDetail((item as PMovie).id)
             true
         }
@@ -56,10 +53,6 @@ class MainActivity : BaseActivity(), MainContract.View {
         startActivity(MovieDetailActivity.createIntent(this, movieId))
     }
 
-    override fun showProgressBar() = setupVisibility(true)
-
-    override fun hideProgressBar() = setupVisibility(false)
-
     private fun setupView() {
         setupAdapter()
         setupRecyclerView(recyclerViewMovies)
@@ -70,6 +63,12 @@ class MainActivity : BaseActivity(), MainContract.View {
             })
             getPageResults().observe(this@MainActivity, Observer {
                 totalResults = it
+            })
+            getProgressState().observe(this@MainActivity, Observer {
+                setupProgressVisibility(it)
+            })
+            getError().observe(this@MainActivity, Observer {
+                showMessage(it.message)
             })
         }
     }
@@ -103,7 +102,7 @@ class MainActivity : BaseActivity(), MainContract.View {
             }
         }
 
-    private fun setupVisibility(isLoadingMovies: Boolean) {
+    private fun setupProgressVisibility(isLoadingMovies: Boolean) {
         progressLoadingMovies.makeVisibleIf(isLoadingMovies)
     }
 }
