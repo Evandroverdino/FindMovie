@@ -9,6 +9,6 @@ This is an application to find popular movies seen recently
 * Repository
 * Data Sources
 * Kotlin Coroutines
-* Koin for dependency injection
-* Room for database management
-* Retrofit for network management
+* Koin
+* Room
+* Retrofit
