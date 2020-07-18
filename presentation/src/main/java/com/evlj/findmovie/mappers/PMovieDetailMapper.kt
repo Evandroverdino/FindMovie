@@ -11,32 +11,28 @@ class PMovieDetailMapper(
     override fun transform(value: MovieDetail): PMovieDetail {
         return PMovieDetail(
             id = value.id,
-            budget = value.budget,
-            genres = value.genres.let(genresMapper::transform),
-            homepage = value.homepage,
-            originalTitle = value.originalTitle,
+            _genres = value.genres.let(genresMapper::transform),
             overview = value.overview,
             posterPath = value.posterPath,
             releaseDate = value.releaseDate,
-            runtime = value.runtime,
+            _runtime = value.runtime,
             title = value.title,
-            voteAverage = value.voteAverage
+            _voteAverage = value.voteAverage,
+            isFavorite = value.isFavorite
         )
     }
 
     override fun parseBack(value: PMovieDetail): MovieDetail {
         return MovieDetail(
             id = value.id,
-            budget = value.budget,
-            genres = value.genres.let(genresMapper::parseBack),
-            homepage = value.homepage,
-            originalTitle = value.originalTitle,
+            genres = value._genres.let(genresMapper::parseBack),
             overview = value.overview,
             posterPath = value.posterPath,
             releaseDate = value.releaseDate,
-            runtime = value.runtime,
+            runtime = value._runtime,
             title = value.title,
-            voteAverage = value.voteAverage
+            voteAverage = value._voteAverage,
+            isFavorite = value.isFavorite
         )
     }
 }

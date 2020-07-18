@@ -1,6 +1,6 @@
 package com.evlj.findmovie.data.di
 
-import com.evlj.findmovie.data.helpers.Constants
+import com.evlj.findmovie.data.helpers.Constants.API_BASE_URL
 import com.evlj.findmovie.data.helpers.Constants.HTTP_INTERCEPTOR
 import com.evlj.findmovie.data.helpers.RetrofitFactory
 import com.evlj.findmovie.data.sources.MovieApi
@@ -32,7 +32,7 @@ val dataNetworkModule = module {
     }
     single {
         Retrofit.Builder()
-            .baseUrl(Constants.API_BASE_URL)
+            .baseUrl(API_BASE_URL)
             .client(get())
             .addConverterFactory(GsonConverterFactory.create(get()))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

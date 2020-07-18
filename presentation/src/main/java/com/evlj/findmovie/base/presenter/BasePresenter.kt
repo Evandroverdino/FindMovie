@@ -1,17 +1,19 @@
 package com.evlj.findmovie.base.presenter
 
-import com.evlj.findmovie.base.activity.IBaseActivity
+import com.evlj.findmovie.base.activity.IBaseView
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
+import io.reactivex.rxkotlin.addTo
 import org.koin.core.KoinComponent
+import org.koin.core.inject
 
-abstract class BasePresenter<View : IBaseActivity> : IBasePresenter<View>, KoinComponent {
+abstract class BasePresenter<View : IBaseView> : IBasePresenter<View>, KoinComponent {
 
     private var internalView: View? = null
-    private val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable by inject<CompositeDisposable>()
 
     override val view: View
         get() = checkNotNull(internalView) {
@@ -35,7 +37,7 @@ abstract class BasePresenter<View : IBaseActivity> : IBasePresenter<View>, KoinC
     open fun onDetachView() {}
 
     fun Disposable.disposeOnDestroy(): Disposable {
-        return apply { compositeDisposable.add(this) }
+        return addTo(compositeDisposable)
     }
 
     fun <T> Single<T>.observeOnUi(): Single<T> {

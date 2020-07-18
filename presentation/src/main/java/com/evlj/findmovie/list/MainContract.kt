@@ -1,12 +1,13 @@
 package com.evlj.findmovie.list
 
-import com.evlj.findmovie.base.activity.IBaseActivity
+import com.evlj.findmovie.base.activity.IBaseView
 import com.evlj.findmovie.base.presenter.IBasePresenter
+import com.evlj.findmovie.list.listener.RecyclerScrollListener
 import com.evlj.findmovie.model.PMovie
 
 interface MainContract {
 
-    interface View : IBaseActivity {
+    interface View : IBaseView {
 
         fun populateAdapter(results: List<PMovie>)
 
@@ -19,13 +20,12 @@ interface MainContract {
         fun hideProgressBar()
     }
 
-    interface Presenter :
-        IBasePresenter<View> {
+    interface Presenter : IBasePresenter<View> {
 
-        fun loadPopularMovies(
-            apiKey: String, language: String,
-            sortBy: String, includeAdult: Boolean,
-            includeVideo: Boolean, page: Int
-        )
+        fun loadPopularMovies(page: Int)
+
+        fun onMovieClicked(movieId: Int)
+
+        fun getScrollListener(): RecyclerScrollListener
     }
 }

@@ -6,14 +6,7 @@ import io.reactivex.Single
 
 interface IDataRemoteSource {
 
-    fun getPopularMovies(
-        apiKey: String, language: String,
-        sortBy: String, includeAdult: Boolean,
-        includeVideo: Boolean, page: Int
-    ): Single<DDiscover>
+    fun getPopularMovies(page: Int): Single<DDiscover>
 
-    fun getMovieDetails(
-        movieId: Int, apiKey: String,
-        language: String
-    ): Single<DMovieDetail>
+    fun getMovieDetails(movieId: Int): Single<DMovieDetail>
 }

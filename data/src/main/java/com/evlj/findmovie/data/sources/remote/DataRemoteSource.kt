@@ -13,32 +13,13 @@ class DataRemoteSource(
     private val movieDetailMapper: DMovieDetailMapper
 ) : IDataRemoteSource {
 
-    override fun getPopularMovies(
-        apiKey: String, language: String,
-        sortBy: String, includeAdult: Boolean,
-        includeVideo: Boolean, page: Int
-    ): Single<DDiscover> =
+    override fun getPopularMovies(page: Int): Single<DDiscover> =
         movieApi
-            .getPopularMovies(
-                apiKey = apiKey,
-                language = language,
-                sortBy = sortBy,
-                includeAdult = includeAdult,
-                includeVideo = includeVideo,
-                page = page
-            )
+            .getPopularMovies(page = page)
             .map(discoverMapper::transform)
 
-    override fun getMovieDetails(
-        movieId: Int,
-        apiKey: String,
-        language: String
-    ): Single<DMovieDetail> =
+    override fun getMovieDetails(movieId: Int): Single<DMovieDetail> =
         movieApi
-            .getMovieDetails(
-                movieId = movieId,
-                apiKey = apiKey,
-                language = language
-            )
+            .getMovieDetails(movieId = movieId)
             .map(movieDetailMapper::transform)
 }

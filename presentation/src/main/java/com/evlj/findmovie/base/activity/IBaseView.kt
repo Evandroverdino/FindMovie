@@ -2,7 +2,7 @@ package com.evlj.findmovie.base.activity
 
 import android.support.annotation.StringRes
 
-interface IBaseActivity {
+interface IBaseView {
 
     fun showMessage(@StringRes messageId: Int)
 

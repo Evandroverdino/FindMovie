@@ -9,7 +9,6 @@ import android.view.MenuItem
 import com.evlj.findmovie.R
 import com.evlj.findmovie.base.activity.BaseActivity
 import com.evlj.findmovie.model.PMovieDetail
-import com.evlj.findmovie.shared.Constants
 import com.evlj.findmovie.shared.extensions.loadImage
 import com.evlj.findmovie.shared.extensions.makeGoneIf
 import com.evlj.findmovie.shared.extensions.makeVisibleIf
@@ -30,7 +29,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
         }
     }
 
-    private val presenter by inject<MovieDetailPresenter>()
+    private val presenter by inject<MovieDetailContract.Presenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,9 +53,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     private fun setupView() {
         setupToolbar()
-        intent.extras?.getInt(MOVIE_ID)?.let {
-            presenter.loadMovieDetails(it, Constants.API_KEY, Constants.API_LANGUAGE)
-        }
+        intent.extras?.getInt(MOVIE_ID)?.let { presenter.loadMovieDetails(it) }
     }
 
     private fun setupToolbar() {
@@ -68,13 +65,15 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     override fun showMovieDetails(movieDetail: PMovieDetail) {
         with(movieDetail) {
-            poster.loadImage(Constants.API_POSTER_URL + Constants.API_POSTER_SIZE_W342 + posterPath)
+            poster.loadImage(posterPath)
             movieName.text = title
             release.text = getString(R.string.movie_release, releaseDate)
-            rating.text = getString(R.string.movie_rating, getVoteAverage())
-            movieRuntime.text = getString(R.string.movie_runtime, getRuntime())
-            movieGenres.text = getString(R.string.movie_genre, getGenres())
+            rating.text = getString(R.string.movie_rating, voteAverage)
+            movieRuntime.text = getString(R.string.movie_runtime, runtime)
+            movieGenres.text = getString(R.string.movie_genre, genres)
             description.text = overview
+
+            updateFavoriteView(movieDetail.isFavorite)
             favorite.setOnClickListener {
                 presenter.saveOrDeleteFavoriteMovie(this)
             }

@@ -14,46 +14,32 @@ class MainPresenter(
     var pageResult: Int = 0
     var totalPageResults: Int = 0
 
-    override fun loadPopularMovies(
-        apiKey: String, language: String,
-        sortBy: String, includeAdult: Boolean,
-        includeVideo: Boolean, page: Int
-    ) {
+    override fun loadPopularMovies(page: Int) {
         movieUseCases
-            .getPopularMovies(
-                apiKey = apiKey,
-                language = language,
-                sortBy = sortBy,
-                includeAdult = includeAdult,
-                includeVideo = includeVideo,
-                page = page
-            )
+            .getPopularMovies(page)
             .map(discoverMapper::transform)
             .observeOnUi()
             .doOnSubscribe { view.showProgressBar() }
+            .doAfterTerminate { view.hideProgressBar() }
             .subscribeBy(
                 onSuccess = {
-                    view.hideProgressBar()
                     view.populateAdapter(it.results)
                     totalPageResults = it.totalPages
                 },
-                onError = {
-                    view.hideProgressBar()
-                    view.showMessage(it.message)
-                }
+                onError = { view.showMessage(it.message) }
             )
             .disposeOnDestroy()
 
         pageResult = page
     }
 
-    fun getScrollListener(): RecyclerScrollListener = object : RecyclerScrollListener() {
-        override fun loadMoreMovies() {
+    override fun onMovieClicked(movieId: Int) = view.navigateToMovieDetail(movieId)
+
+    override fun getScrollListener(): RecyclerScrollListener = object : RecyclerScrollListener() {
+        override fun loadMoreData() {
             if (pageResult + 1 <= totalPageResults) {
                 view.loadMorePopularMovies(pageResult + 1)
             }
         }
     }
-
-    fun onClickMovie(movieId: Int) = view.navigateToMovieDetail(movieId)
 }

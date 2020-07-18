@@ -21,14 +21,14 @@ import org.koin.android.ext.android.inject
 
 class MainActivity : BaseActivity(), MainContract.View {
 
-    private val presenter by inject<MainPresenter>()
+    private val presenter by inject<MainContract.Presenter>()
 
     private val moviesAdapter: AnyRvAdapter by lazy {
         AnyRvAdapter(
             mapOf(PMovie::class to PopularMovieItemController),
             emptyList()
         ) { _, item ->
-            presenter.onClickMovie((item as PMovie).id)
+            presenter.onMovieClicked((item as PMovie).id)
             true
         }
     }
@@ -51,14 +51,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun setupAdapter() =
-        presenter.loadPopularMovies(
-            apiKey = Constants.API_KEY,
-            language = Constants.API_LANGUAGE,
-            sortBy = Constants.API_SORT_BY,
-            includeAdult = false,
-            includeVideo = false,
-            page = Constants.API_PAGE_RESULT
-        )
+        presenter.loadPopularMovies(Constants.API_PAGE_RESULT)
 
     private fun setupRecyclerView(recyclerView: RecyclerView) = with(recyclerView) {
         layoutManager = setupLayoutManager()
@@ -76,14 +69,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun loadMorePopularMovies(pageResult: Int) =
-        presenter.loadPopularMovies(
-            apiKey = Constants.API_KEY,
-            language = Constants.API_LANGUAGE,
-            sortBy = Constants.API_SORT_BY,
-            includeAdult = false,
-            includeVideo = false,
-            page = pageResult
-        )
+        presenter.loadPopularMovies(pageResult)
 
     override fun navigateToMovieDetail(movieId: Int) =
         startActivity(MovieDetailActivity.createIntent(this, movieId))
@@ -111,7 +97,7 @@ object PopularMovieItemController : AnyRvItemController<PMovie>() {
     ) {
         with(rootView) {
             with(item) {
-                poster.loadImage(Constants.API_POSTER_URL + Constants.API_POSTER_SIZE_W185 + posterPath)
+                poster.loadImage(posterPath)
                 name.text = title
                 sinopse.text = overview
             }
