@@ -12,8 +12,8 @@ interface MovieApi {
     @GET("discover/movie")
     suspend fun getPopularMovies(
         @Query("api_key") apiKey: String = Constants.API_KEY,
-        @Query("language") language: String,
-        @Query("sort_by") sortBy: String,
+        @Query("language") language: String = Constants.API_LANGUAGE,
+        @Query("sort_by") sortBy: String = Constants.API_SORT_BY,
         @Query("include_adult") includeAdult: Boolean = false,
         @Query("include_video") includeVideo: Boolean = false,
         @Query("page") page: Int
@@ -23,6 +23,6 @@ interface MovieApi {
     suspend fun getMovieDetails(
         @Path("id") movieId: Int,
         @Query("api_key") apiKey: String = Constants.API_KEY,
-        @Query("language") language: String
+        @Query("language") language: String = Constants.API_LANGUAGE
     ): RMovieDetail
 }

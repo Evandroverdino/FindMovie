@@ -6,14 +6,7 @@ import kotlinx.coroutines.Deferred
 
 interface IDataRemoteSource {
 
-    suspend fun getPopularMovies(
-        language: String,
-        sortBy: String,
-        page: Int
-    ): Deferred<DDiscover>
+    suspend fun getPopularMovies(page: Int): Deferred<DDiscover>
 
-    suspend fun getMovieDetails(
-        movieId: Int,
-        language: String
-    ): Deferred<DMovieDetail>
+    suspend fun getMovieDetails(movieId: Int): Deferred<DMovieDetail>
 }

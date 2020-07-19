@@ -10,7 +10,6 @@ import androidx.lifecycle.Observer
 import com.evlj.findmovie.R
 import com.evlj.findmovie.base.activity.BaseActivity
 import com.evlj.findmovie.model.PMovieDetail
-import com.evlj.findmovie.shared.Constants
 import com.evlj.findmovie.shared.extensions.loadImage
 import com.evlj.findmovie.shared.extensions.makeGoneIf
 import com.evlj.findmovie.shared.extensions.makeVisibleIf
@@ -63,13 +62,15 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     override fun showMovieDetails(movieDetail: PMovieDetail) {
         with(movieDetail) {
-            poster.loadImage(Constants.API_POSTER_URL + Constants.API_POSTER_SIZE_W342 + posterPath)
-            movieName.text = title
+            poster.loadImage(posterPath)
+            name.text = title
             release.text = getString(R.string.movie_release, releaseDate)
             rating.text = getString(R.string.movie_rating, voteAverage)
             movieRuntime.text = getString(R.string.movie_runtime, runtime)
             movieGenres.text = getString(R.string.movie_genre, genres)
             description.text = overview
+
+            updateFavoriteView(movieDetail.isFavorite)
             favorite.setOnClickListener {
                 movieDetailViewModel.saveOrDeleteFavoriteMovie(this)
             }
@@ -93,20 +94,15 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     private fun setupView() {
         setupToolbar()
-        intent.extras?.getInt(MOVIE_ID)?.let {
-            movieDetailViewModel.loadMovieDetails(it, Constants.API_LANGUAGE)
-        }
+        intent.extras?.getInt(MOVIE_ID)?.let { movieDetailViewModel.loadMovieDetails(it) }
     }
 
     private fun setupToolbar() {
-        with(toolbar) {
-            setSupportActionBar(this)
-            setNavigationIcon(R.drawable.round_arrow_back_white_24)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     private fun setupProgressVisibility(isLoadingMovie: Boolean) {
         progressLoadingMovie.makeVisibleIf(isLoadingMovie)
-        movieInfo.makeGoneIf(isLoadingMovie)
+        constraintContent.makeGoneIf(isLoadingMovie)
     }
 }

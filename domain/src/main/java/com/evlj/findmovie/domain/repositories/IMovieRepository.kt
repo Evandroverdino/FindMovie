@@ -6,14 +6,11 @@ import kotlinx.coroutines.Deferred
 
 interface IMovieRepository {
 
-    suspend fun getPopularMovies(
-        language: String,
-        sortBy: String,
-        page: Int
-    ): Deferred<Discover>
+    suspend fun getPopularMovies(page: Int): Deferred<Discover>
 
-    suspend fun getMovieDetails(
-        movieId: Int,
-        language: String
-    ): Deferred<MovieDetail>
+    suspend fun getMovieDetails(movieId: Int): Deferred<MovieDetail>
+
+    suspend fun saveMovie(movieDetail: MovieDetail): Deferred<Unit>
+
+    suspend fun deleteMovie(movieId: Int): Deferred<Unit>
 }

@@ -14,10 +14,6 @@ class MovieApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        buildKoinInstance()
-    }
-
-    private fun buildKoinInstance() {
         startKoin {
             androidLogger()
             androidContext(this@MovieApplication)

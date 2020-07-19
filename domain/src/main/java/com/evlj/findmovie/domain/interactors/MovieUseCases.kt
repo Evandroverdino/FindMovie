@@ -7,25 +7,15 @@ import kotlinx.coroutines.Deferred
 
 class MovieUseCases(private val dataRepository: IMovieRepository) {
 
-    suspend fun getPopularMovies(
-        language: String,
-        sortBy: String,
-        page: Int
-    ): Deferred<Discover> =
-        dataRepository
-            .getPopularMovies(
-                language = language,
-                sortBy = sortBy,
-                page = page
-            )
+    suspend fun getPopularMovies(page: Int): Deferred<Discover> =
+        dataRepository.getPopularMovies(page)
 
-    suspend fun getMovieDetails(
-        movieId: Int,
-        language: String
-    ): Deferred<MovieDetail> =
-        dataRepository
-            .getMovieDetails(
-                movieId = movieId,
-                language = language
-            )
+    suspend fun getMovieDetails(movieId: Int): Deferred<MovieDetail> =
+        dataRepository.getMovieDetails(movieId)
+
+    suspend fun saveMovie(movieDetail: MovieDetail): Deferred<Unit> =
+        dataRepository.saveMovie(movieDetail)
+
+    suspend fun deleteMovie(movieId: Int): Deferred<Unit> =
+        dataRepository.deleteMovie(movieId)
 }

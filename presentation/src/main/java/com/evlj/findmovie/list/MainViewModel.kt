@@ -22,21 +22,13 @@ class MainViewModel(
     private val progressBarVisibility: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
     private val error: MutableLiveData<Exception> by lazy { MutableLiveData<Exception>() }
 
-    fun loadPopularMovies(
-        language: String,
-        sortBy: String,
-        page: Int
-    ) {
+    fun loadPopularMovies(page: Int) {
         viewModelScope.launch {
             try {
                 progressBarVisibility.postValue(true)
                 withContext(dispatcherProvider.background) {
                     movieUseCases
-                        .getPopularMovies(
-                            language = language,
-                            sortBy = sortBy,
-                            page = page
-                        )
+                        .getPopularMovies(page)
                         .await()
                         .let(discoverMapper::transform)
                 }.let {

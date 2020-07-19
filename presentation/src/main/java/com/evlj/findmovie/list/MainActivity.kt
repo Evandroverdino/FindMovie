@@ -11,8 +11,8 @@ import com.evlj.findmovie.R
 import com.evlj.findmovie.base.activity.BaseActivity
 import com.evlj.findmovie.base.adapter.AnyRvAdapter
 import com.evlj.findmovie.base.adapter.AnyRvItemController
+import com.evlj.findmovie.base.adapter.listener.RecyclerScrollListener
 import com.evlj.findmovie.detail.MovieDetailActivity
-import com.evlj.findmovie.list.listener.RecyclerScrollListener
 import com.evlj.findmovie.model.PMovie
 import com.evlj.findmovie.shared.Constants
 import com.evlj.findmovie.shared.extensions.loadImage
@@ -42,11 +42,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     override fun loadMorePopularMovies(pageResult: Int) {
-        mainViewModel.loadPopularMovies(
-            language = Constants.API_LANGUAGE,
-            sortBy = Constants.API_SORT_BY,
-            page = pageResult
-        )
+        mainViewModel.loadPopularMovies(pageResult)
     }
 
     override fun navigateToMovieDetail(movieId: Int) {
@@ -74,11 +70,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     }
 
     private fun setupAdapter() {
-        mainViewModel.loadPopularMovies(
-            language = Constants.API_LANGUAGE,
-            sortBy = Constants.API_SORT_BY,
-            page = Constants.API_PAGE_RESULT
-        )
+        mainViewModel.loadPopularMovies(Constants.API_PAGE_RESULT)
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) = with(recyclerView) {
@@ -94,7 +86,7 @@ class MainActivity : BaseActivity(), MainContract.View {
     private fun getScrollListener(): RecyclerScrollListener =
         object : RecyclerScrollListener() {
 
-            override fun loadMoreMovies() {
+            override fun loadMoreData() {
                 if (page + 1 <= totalResults) {
                     page = page.inc()
                     loadMorePopularMovies(page)
@@ -121,7 +113,7 @@ object PopularMovieItemController : AnyRvItemController<PMovie>() {
     ) {
         with(rootView) {
             with(item) {
-                poster.loadImage(Constants.API_POSTER_URL + Constants.API_POSTER_SIZE_W185 + posterPath)
+                poster.loadImage(posterPath)
                 name.text = title
                 sinopse.text = overview
             }
