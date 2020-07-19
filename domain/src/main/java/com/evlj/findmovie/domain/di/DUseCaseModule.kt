@@ -4,5 +4,5 @@ import com.evlj.findmovie.domain.interactors.MovieUseCases
 import org.koin.dsl.module
 
 val domainUseCaseModule = module {
-    single { MovieUseCases(get()) }
+    single { MovieUseCases(get(), get()) }
 }

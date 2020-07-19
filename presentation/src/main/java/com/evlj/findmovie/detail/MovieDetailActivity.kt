@@ -57,16 +57,13 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
     }
 
     private fun setupToolbar() {
-        with(toolbar) {
-            setSupportActionBar(this)
-            setNavigationIcon(R.drawable.round_arrow_back_white_24)
-        }
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     override fun showMovieDetails(movieDetail: PMovieDetail) {
         with(movieDetail) {
             poster.loadImage(posterPath)
-            movieName.text = title
+            name.text = title
             release.text = getString(R.string.movie_release, releaseDate)
             rating.text = getString(R.string.movie_rating, voteAverage)
             movieRuntime.text = getString(R.string.movie_runtime, runtime)
@@ -101,6 +98,6 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     private fun setupVisibility(isLoadingMovie: Boolean) {
         progressLoadingMovie.makeVisibleIf(isLoadingMovie)
-        movieInfo.makeGoneIf(isLoadingMovie)
+        constraintContent.makeGoneIf(isLoadingMovie)
     }
 }
