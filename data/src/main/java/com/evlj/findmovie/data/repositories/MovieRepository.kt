@@ -27,7 +27,6 @@ class MovieRepository(
             async {
                 dataRemoteSource
                     .getPopularMovies(page)
-                    .await()
                     .let(discoverMapper::transform)
             }
         }
@@ -46,7 +45,6 @@ class MovieRepository(
                         else
                             dataRemoteSource
                                 .getMovieDetails(movieId)
-                                .await()
                                 .apply { isFavorite = false }
                                 .let(movieDetailMapper::transform)
                     }

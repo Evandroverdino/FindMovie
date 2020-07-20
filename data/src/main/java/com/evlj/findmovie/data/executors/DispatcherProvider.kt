@@ -6,9 +6,6 @@ import kotlinx.coroutines.Dispatchers
 
 class DispatcherProvider : IDispatcherProvider {
 
-    override val main: CoroutineDispatcher
-        get() = Dispatchers.Main
-
-    override val background: CoroutineDispatcher
-        get() = Dispatchers.IO
+    override val main: CoroutineDispatcher = Dispatchers.Main
+    override val background: CoroutineDispatcher = Dispatchers.IO
 }
