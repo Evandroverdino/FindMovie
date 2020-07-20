@@ -4,16 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.evlj.findmovie.domain.executors.IDispatcherProvider
-import com.evlj.findmovie.domain.interactors.MovieUseCases
+import com.evlj.findmovie.domain.extensions.launchJob
+import com.evlj.findmovie.domain.repositories.IMovieRepository
 import com.evlj.findmovie.mappers.PDiscoverMapper
 import com.evlj.findmovie.model.PMovie
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainViewModel(
-    private val dispatcherProvider: IDispatcherProvider,
-    private val movieUseCases: MovieUseCases,
+    private val movieRepository: IMovieRepository,
     private val discoverMapper: PDiscoverMapper
 ) : ViewModel() {
 
@@ -23,24 +20,24 @@ class MainViewModel(
     private val error: MutableLiveData<Exception> by lazy { MutableLiveData<Exception>() }
 
     fun loadPopularMovies(page: Int) {
-        viewModelScope.launch {
-            try {
+        viewModelScope.launchJob(
+            requestBlock = {
                 progressBarVisibility.postValue(true)
-                withContext(dispatcherProvider.background) {
-                    movieUseCases
-                        .getPopularMovies(page)
-                        .await()
-                        .let(discoverMapper::transform)
-                }.let {
-                    progressBarVisibility.postValue(false)
-                    movies.postValue(it.results)
-                    totalPageResults.postValue(it.totalPages)
-                }
-            } catch (exception: Exception) {
+                movieRepository
+                    .getPopularMovies(page)
+                    .await()
+                    .let(discoverMapper::transform)
+            },
+            onSuccess = {
                 progressBarVisibility.postValue(false)
-                error.postValue(exception)
+                movies.postValue(it.results)
+                totalPageResults.postValue(it.totalPages)
+            },
+            onFailure = {
+                progressBarVisibility.postValue(false)
+                error.postValue(it as Exception?)
             }
-        }
+        )
     }
 
     fun getMovies(): LiveData<List<PMovie>> = movies

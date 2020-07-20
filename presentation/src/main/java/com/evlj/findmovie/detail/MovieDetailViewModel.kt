@@ -4,16 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.evlj.findmovie.domain.executors.IDispatcherProvider
-import com.evlj.findmovie.domain.interactors.MovieUseCases
+import com.evlj.findmovie.domain.extensions.launchJob
+import com.evlj.findmovie.domain.repositories.IMovieRepository
 import com.evlj.findmovie.mappers.PMovieDetailMapper
 import com.evlj.findmovie.model.PMovieDetail
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MovieDetailViewModel(
-    private val dispatcherProvider: IDispatcherProvider,
-    private val movieUseCases: MovieUseCases,
+    private val movieRepository: IMovieRepository,
     private val movieDetailMapper: PMovieDetailMapper
 ) : ViewModel() {
 
@@ -23,23 +20,23 @@ class MovieDetailViewModel(
     private val error: MutableLiveData<Exception> by lazy { MutableLiveData<Exception>() }
 
     fun loadMovieDetails(movieId: Int) {
-        viewModelScope.launch {
-            try {
+        viewModelScope.launchJob(
+            requestBlock = {
                 progressBarVisibility.postValue(true)
-                withContext(dispatcherProvider.background) {
-                    movieUseCases
-                        .getMovieDetails(movieId)
-                        .await()
-                        .let(movieDetailMapper::transform)
-                }.let {
-                    progressBarVisibility.postValue(false)
-                    movieDetail.postValue(it)
-                }
-            } catch (exception: Exception) {
+                movieRepository
+                    .getMovieDetails(movieId)
+                    .await()
+                    .let(movieDetailMapper::transform)
+            },
+            onSuccess = {
                 progressBarVisibility.postValue(false)
-                error.postValue(exception)
+                movieDetail.postValue(it)
+            },
+            onFailure = {
+                progressBarVisibility.postValue(false)
+                error.postValue(it as Exception?)
             }
-        }
+        )
     }
 
     fun saveOrDeleteFavoriteMovie(movieDetail: PMovieDetail) {
@@ -50,35 +47,35 @@ class MovieDetailViewModel(
     }
 
     private fun saveMovie(movieDetail: PMovieDetail) {
-        viewModelScope.launch {
-            try {
-                withContext(dispatcherProvider.background) {
-                    movieUseCases
-                        .saveMovie(movieDetail.let(movieDetailMapper::parseBack))
-                        .await()
-                }.let {
-                    movieIsFavorite.postValue(true)
-                }
-            } catch (exception: Exception) {
-                error.postValue(exception)
+        viewModelScope.launchJob(
+            requestBlock = {
+                movieRepository
+                    .saveMovie(movieDetail.let(movieDetailMapper::parseBack))
+                    .await()
+            },
+            onSuccess = {
+                movieIsFavorite.postValue(true)
+            },
+            onFailure = {
+                error.postValue(it as Exception?)
             }
-        }
+        )
     }
 
     private fun deleteMovie(movieId: Int) {
-        viewModelScope.launch {
-            try {
-                withContext(dispatcherProvider.background) {
-                    movieUseCases
-                        .deleteMovie(movieId)
-                        .await()
-                }.let {
-                    movieIsFavorite.postValue(false)
-                }
-            } catch (exception: Exception) {
-                error.postValue(exception)
+        viewModelScope.launchJob(
+            requestBlock = {
+                movieRepository
+                    .deleteMovie(movieId)
+                    .await()
+            },
+            onSuccess = {
+                movieIsFavorite.postValue(false)
+            },
+            onFailure = {
+                error.postValue(it as Exception?)
             }
-        }
+        )
     }
 
     fun getMovieDetails(): LiveData<PMovieDetail> = movieDetail
