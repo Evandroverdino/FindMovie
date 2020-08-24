@@ -64,8 +64,10 @@ class MainActivity : BaseActivity(), MainContract.View {
         LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
     override fun populateAdapter(results: List<PMovie>) {
-        moviesAdapter.add(results)
-        moviesAdapter.notifyDataSetChanged()
+        with(moviesAdapter) {
+            add(results)
+            notifyDataSetChanged()
+        }
     }
 
     override fun loadMorePopularMovies(pageResult: Int) =

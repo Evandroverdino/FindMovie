@@ -17,18 +17,6 @@ import org.koin.android.ext.android.inject
 
 class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
-    companion object {
-        @JvmStatic
-        val MOVIE_ID = "movieId"
-
-        @JvmStatic
-        fun createIntent(context: Context, movieId: Int): Intent {
-            val intent = Intent(context, MovieDetailActivity::class.java)
-            intent.putExtra(MOVIE_ID, movieId)
-            return intent
-        }
-    }
-
     private val presenter by inject<MovieDetailContract.Presenter>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,7 +31,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
         presenter.detachView()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?) = when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         android.R.id.home -> {
             NavUtils.navigateUpFromSameTask(this)
             true
@@ -53,7 +41,7 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     private fun setupView() {
         setupToolbar()
-        intent.extras?.getInt(MOVIE_ID)?.let { presenter.loadMovieDetails(it) }
+        intent.extras?.getInt(MOVIE_ID_EXTRA)?.let(presenter::loadMovieDetails)
     }
 
     private fun setupToolbar() {
@@ -79,12 +67,12 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
 
     override fun updateFavoriteView(isFavorite: Boolean) {
         with(favorite) {
-            when (isFavorite) {
-                true -> ContextCompat.getDrawable(
+            when {
+                isFavorite -> ContextCompat.getDrawable(
                     this@MovieDetailActivity,
                     R.drawable.round_star_black_48
                 )
-                false -> ContextCompat.getDrawable(
+                else -> ContextCompat.getDrawable(
                     this@MovieDetailActivity,
                     R.drawable.round_star_border_black_48
                 )
@@ -99,5 +87,15 @@ class MovieDetailActivity : BaseActivity(), MovieDetailContract.View {
     private fun setupVisibility(isLoadingMovie: Boolean) {
         progressLoadingMovie.makeVisibleIf(isLoadingMovie)
         constraintContent.makeGoneIf(isLoadingMovie)
+    }
+
+    companion object {
+        private const val MOVIE_ID_EXTRA = "movieId"
+
+        fun createIntent(context: Context, movieId: Int): Intent {
+            val intent = Intent(context, MovieDetailActivity::class.java)
+            intent.putExtra(MOVIE_ID_EXTRA, movieId)
+            return intent
+        }
     }
 }
