@@ -37,16 +37,18 @@ class MovieRepository(
                 genreLocalSource
                     .searchGenres(movieId)
                     .let { genres ->
-                        if (genres.isNotEmpty())
-                            movieLocalSource
-                                .searchMovie(movieId)
-                                .copy(_genres = genres)
-                                .let(movieDetailMapper::transform)
-                        else
-                            dataRemoteSource
-                                .getMovieDetails(movieId)
-                                .apply { isFavorite = false }
-                                .let(movieDetailMapper::transform)
+                        when {
+                            genres.isNotEmpty() ->
+                                movieLocalSource
+                                    .searchMovie(movieId)
+                                    .copy(_genres = genres)
+                                    .let(movieDetailMapper::transform)
+                            else ->
+                                dataRemoteSource
+                                    .getMovieDetails(movieId)
+                                    .apply { isFavorite = false }
+                                    .let(movieDetailMapper::transform)
+                        }
                     }
             }
         }
