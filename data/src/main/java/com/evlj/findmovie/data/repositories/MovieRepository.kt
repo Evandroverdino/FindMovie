@@ -1,29 +1,32 @@
 package com.evlj.findmovie.data.repositories
 
 import android.arch.persistence.room.EmptyResultSetException
-import com.evlj.findmovie.data.mappers.DiscoverMapper
 import com.evlj.findmovie.data.mappers.MovieDetailsMapper
+import com.evlj.findmovie.data.mappers.MovieMapper
 import com.evlj.findmovie.data.sources.local.dao.IGenreLocalSource
 import com.evlj.findmovie.data.sources.local.dao.IMovieLocalSource
 import com.evlj.findmovie.data.sources.remote.IDataRemoteSource
-import com.evlj.findmovie.domain.entities.Discover
+import com.evlj.findmovie.domain.entities.Movie
 import com.evlj.findmovie.domain.entities.MovieDetail
+import com.evlj.findmovie.domain.entities.paginated.PaginationCommand
 import com.evlj.findmovie.domain.repositories.IMovieRepository
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 
 class MovieRepository(
     private val movieLocalSource: IMovieLocalSource,
     private val genreLocalSource: IGenreLocalSource,
     private val dataRemoteSource: IDataRemoteSource,
-    private val discoverMapper: DiscoverMapper,
+    private val movieMapper: MovieMapper,
     private val movieDetailMapper: MovieDetailsMapper
 ) : IMovieRepository {
 
-    override fun getPopularMovies(page: Int): Single<Discover> =
+    override fun getPopularMovies(command: Observable<PaginationCommand>): Observable<List<Movie>> =
         dataRemoteSource
-            .getPopularMovies(page)
-            .map(discoverMapper::transform)
+            .getPopularMovies()
+            .asObservable(command)
+            .map(movieMapper::transform)
 
     override fun getMovieDetails(movieId: Int): Single<MovieDetail> =
         genreLocalSource

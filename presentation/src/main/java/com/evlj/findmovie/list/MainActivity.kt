@@ -12,7 +12,6 @@ import com.evlj.findmovie.base.adapter.AnyRvAdapter
 import com.evlj.findmovie.base.adapter.AnyRvItemController
 import com.evlj.findmovie.detail.MovieDetailActivity
 import com.evlj.findmovie.model.PMovie
-import com.evlj.findmovie.shared.Constants
 import com.evlj.findmovie.shared.extensions.loadImage
 import com.evlj.findmovie.shared.extensions.makeVisibleIf
 import kotlinx.android.synthetic.main.activity_main.*
@@ -50,8 +49,7 @@ class MainActivity : BaseActivity(), MainContract.View {
         setupRecyclerView(recyclerViewMovies)
     }
 
-    private fun setupAdapter() =
-        presenter.loadPopularMovies(Constants.API_PAGE_RESULT)
+    private fun setupAdapter() = presenter.loadPopularMovies()
 
     private fun setupRecyclerView(recyclerView: RecyclerView) = with(recyclerView) {
         layoutManager = setupLayoutManager()
@@ -69,9 +67,6 @@ class MainActivity : BaseActivity(), MainContract.View {
             notifyDataSetChanged()
         }
     }
-
-    override fun loadMorePopularMovies(pageResult: Int) =
-        presenter.loadPopularMovies(pageResult)
 
     override fun navigateToMovieDetail(movieId: Int) =
         startActivity(MovieDetailActivity.createIntent(this, movieId))

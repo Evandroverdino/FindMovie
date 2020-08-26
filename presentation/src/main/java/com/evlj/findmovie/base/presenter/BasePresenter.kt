@@ -2,6 +2,7 @@ package com.evlj.findmovie.base.presenter
 
 import com.evlj.findmovie.base.activity.IBaseView
 import io.reactivex.Completable
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -38,6 +39,10 @@ abstract class BasePresenter<View : IBaseView> : IBasePresenter<View>, KoinCompo
 
     fun Disposable.disposeOnDestroy(): Disposable {
         return addTo(compositeDisposable)
+    }
+
+    fun <T> Observable<T>.observeOnUi(): Observable<T> {
+        return observeOn(AndroidSchedulers.mainThread())
     }
 
     fun <T> Single<T>.observeOnUi(): Single<T> {

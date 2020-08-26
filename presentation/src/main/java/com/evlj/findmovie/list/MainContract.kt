@@ -11,8 +11,6 @@ interface MainContract {
 
         fun populateAdapter(results: List<PMovie>)
 
-        fun loadMorePopularMovies(pageResult: Int)
-
         fun navigateToMovieDetail(movieId: Int)
 
         fun showProgressBar()
@@ -22,7 +20,7 @@ interface MainContract {
 
     interface Presenter : IBasePresenter<View> {
 
-        fun loadPopularMovies(page: Int)
+        fun loadPopularMovies()
 
         fun onMovieClicked(movieId: Int)
 
